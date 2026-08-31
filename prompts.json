@@ -1,0 +1,2512 @@
+{
+  "created_at": "2026-08-31T19:09:50Z",
+  "dataset": "databricks/databricks-dolly-15k",
+  "dataset_revision": "bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a",
+  "category": "open_qa",
+  "n_prompts": 500,
+  "sample_seed": 20240517,
+  "sampler": "numpy.random.default_rng(seed).choice(n_category_rows, size=n, replace=False)",
+  "n_category_rows": 3742,
+  "prompts": [
+    {
+      "prompt_id": "dolly-5247",
+      "text": "Complete this saying: The early birds get the ___\"",
+      "source_row_index": 5247
+    },
+    {
+      "prompt_id": "dolly-3150",
+      "text": "Name the place in New Zealand, where a volcano erupted?",
+      "source_row_index": 3150
+    },
+    {
+      "prompt_id": "dolly-10973",
+      "text": "Who played Dr. Jerry Buss in the show Winning Time?",
+      "source_row_index": 10973
+    },
+    {
+      "prompt_id": "dolly-5723",
+      "text": "Where was the 2nd edition of Indian and Bangladesh Navies held?",
+      "source_row_index": 5723
+    },
+    {
+      "prompt_id": "dolly-8100",
+      "text": "What is the paleolithic?",
+      "source_row_index": 8100
+    },
+    {
+      "prompt_id": "dolly-10966",
+      "text": "What kind of sounds do Alpacas make?",
+      "source_row_index": 10966
+    },
+    {
+      "prompt_id": "dolly-9202",
+      "text": "What is the capital of Georgia?",
+      "source_row_index": 9202
+    },
+    {
+      "prompt_id": "dolly-4752",
+      "text": "International Booker Prize 2021 was given to",
+      "source_row_index": 4752
+    },
+    {
+      "prompt_id": "dolly-1419",
+      "text": "What was the The second capital of Chandragupta II",
+      "source_row_index": 1419
+    },
+    {
+      "prompt_id": "dolly-9138",
+      "text": "What is the legal drinking age in the USA?",
+      "source_row_index": 9138
+    },
+    {
+      "prompt_id": "dolly-6299",
+      "text": "What is the Mile of Music?",
+      "source_row_index": 6299
+    },
+    {
+      "prompt_id": "dolly-7278",
+      "text": "What is a debit card?",
+      "source_row_index": 7278
+    },
+    {
+      "prompt_id": "dolly-8956",
+      "text": "Who won the 2022 NBA Finals?",
+      "source_row_index": 8956
+    },
+    {
+      "prompt_id": "dolly-10632",
+      "text": "Which festival takes place next to Walibi Holland every year in august?",
+      "source_row_index": 10632
+    },
+    {
+      "prompt_id": "dolly-1012",
+      "text": "Provide a list of body parts that are only three letters long. Here are some body parts that are three lettered words: toe, rib, eye, ear, leg and jaw.",
+      "source_row_index": 1012
+    },
+    {
+      "prompt_id": "dolly-5047",
+      "text": "What is HTTP?",
+      "source_row_index": 5047
+    },
+    {
+      "prompt_id": "dolly-10696",
+      "text": "On which day did Theodore Roosevelt lose both his first wife and his mother?",
+      "source_row_index": 10696
+    },
+    {
+      "prompt_id": "dolly-554",
+      "text": "Who was Cleopatra's first husband",
+      "source_row_index": 554
+    },
+    {
+      "prompt_id": "dolly-5662",
+      "text": "What car manufacturers were associated with American Muscle cars in the 1960s and 1970s?",
+      "source_row_index": 5662
+    },
+    {
+      "prompt_id": "dolly-7907",
+      "text": "Who wrote The Originals?",
+      "source_row_index": 7907
+    },
+    {
+      "prompt_id": "dolly-9511",
+      "text": "What is ice cream",
+      "source_row_index": 9511
+    },
+    {
+      "prompt_id": "dolly-12178",
+      "text": "Name some popular video games exclusive to Sony’s Playstation game consoles.",
+      "source_row_index": 12178
+    },
+    {
+      "prompt_id": "dolly-9660",
+      "text": "What is the difference between dark matter and dark energy?",
+      "source_row_index": 9660
+    },
+    {
+      "prompt_id": "dolly-8837",
+      "text": "When was bowling believed to have been invented?",
+      "source_row_index": 8837
+    },
+    {
+      "prompt_id": "dolly-5727",
+      "text": "What is deafblindness",
+      "source_row_index": 5727
+    },
+    {
+      "prompt_id": "dolly-1155",
+      "text": "Why is November 14 celebrated as world diabetes day?",
+      "source_row_index": 1155
+    },
+    {
+      "prompt_id": "dolly-13351",
+      "text": "What is carnitine?",
+      "source_row_index": 13351
+    },
+    {
+      "prompt_id": "dolly-2756",
+      "text": "When was the Victorian Football League renamed to the Australian Football League?",
+      "source_row_index": 2756
+    },
+    {
+      "prompt_id": "dolly-13189",
+      "text": "What are the names of all Depeche Mode albums?",
+      "source_row_index": 13189
+    },
+    {
+      "prompt_id": "dolly-14009",
+      "text": "What is a verb?",
+      "source_row_index": 14009
+    },
+    {
+      "prompt_id": "dolly-11682",
+      "text": "What is OAuth 2.0?",
+      "source_row_index": 11682
+    },
+    {
+      "prompt_id": "dolly-1404",
+      "text": "What is the largest state in the United States?",
+      "source_row_index": 1404
+    },
+    {
+      "prompt_id": "dolly-359",
+      "text": "What is Terraform?",
+      "source_row_index": 359
+    },
+    {
+      "prompt_id": "dolly-11331",
+      "text": "Which first indian movie won oscars and what category",
+      "source_row_index": 11331
+    },
+    {
+      "prompt_id": "dolly-7417",
+      "text": "The quit India movement is also known as",
+      "source_row_index": 7417
+    },
+    {
+      "prompt_id": "dolly-5343",
+      "text": "During which event, Korea was separated into 2 nations?",
+      "source_row_index": 5343
+    },
+    {
+      "prompt_id": "dolly-6588",
+      "text": "What is the proper greeting for Passover?",
+      "source_row_index": 6588
+    },
+    {
+      "prompt_id": "dolly-8373",
+      "text": "When did google first start?",
+      "source_row_index": 8373
+    },
+    {
+      "prompt_id": "dolly-13386",
+      "text": "What is the best soccer club in the premier league?",
+      "source_row_index": 13386
+    },
+    {
+      "prompt_id": "dolly-14085",
+      "text": "What is goal line technology in a soccer game?",
+      "source_row_index": 14085
+    },
+    {
+      "prompt_id": "dolly-14665",
+      "text": "What is a sitcom?",
+      "source_row_index": 14665
+    },
+    {
+      "prompt_id": "dolly-2578",
+      "text": "When did Massachusetts become a state?",
+      "source_row_index": 2578
+    },
+    {
+      "prompt_id": "dolly-14753",
+      "text": "Recommend me a SCI FI fiction book",
+      "source_row_index": 14753
+    },
+    {
+      "prompt_id": "dolly-14143",
+      "text": "How many people were present in West Berlin when US President JFK delivered his infamous \"Ich bin ein Berliner\" speech?",
+      "source_row_index": 14143
+    },
+    {
+      "prompt_id": "dolly-682",
+      "text": "What is the difference between natural and real numbers?",
+      "source_row_index": 682
+    },
+    {
+      "prompt_id": "dolly-11694",
+      "text": "How does the federal government of the USA implement separation of powers?",
+      "source_row_index": 11694
+    },
+    {
+      "prompt_id": "dolly-3309",
+      "text": "Where should you go on vacation?",
+      "source_row_index": 3309
+    },
+    {
+      "prompt_id": "dolly-7528",
+      "text": "In 1961 which Henry Mancini record won Grammy record of year",
+      "source_row_index": 7528
+    },
+    {
+      "prompt_id": "dolly-2448",
+      "text": "What is a difference between baseball and cricket?",
+      "source_row_index": 2448
+    },
+    {
+      "prompt_id": "dolly-6679",
+      "text": "What are the three highest peaks in the UK?",
+      "source_row_index": 6679
+    },
+    {
+      "prompt_id": "dolly-5887",
+      "text": "How many years did the Pony Express mail delivery service last?",
+      "source_row_index": 5887
+    },
+    {
+      "prompt_id": "dolly-4153",
+      "text": "What was the first full-length animated movie that Disney released?",
+      "source_row_index": 4153
+    },
+    {
+      "prompt_id": "dolly-12301",
+      "text": "Why are visualisations useful for communicating information?",
+      "source_row_index": 12301
+    },
+    {
+      "prompt_id": "dolly-908",
+      "text": "What is a viral video?",
+      "source_row_index": 908
+    },
+    {
+      "prompt_id": "dolly-14111",
+      "text": "Why is cricket the most viewed sport in India?",
+      "source_row_index": 14111
+    },
+    {
+      "prompt_id": "dolly-779",
+      "text": "Who is Alexander McGuire?",
+      "source_row_index": 779
+    },
+    {
+      "prompt_id": "dolly-11579",
+      "text": "Who betrayed Jesus to the Romans",
+      "source_row_index": 11579
+    },
+    {
+      "prompt_id": "dolly-4947",
+      "text": "Hindi Diwas is observed every year on which date?",
+      "source_row_index": 4947
+    },
+    {
+      "prompt_id": "dolly-10195",
+      "text": "Who was Calvin Parker MacDonald",
+      "source_row_index": 10195
+    },
+    {
+      "prompt_id": "dolly-10978",
+      "text": "What year was the first pizzeria in New York founded?",
+      "source_row_index": 10978
+    },
+    {
+      "prompt_id": "dolly-13322",
+      "text": "What is the maximum speed a plane can reach?",
+      "source_row_index": 13322
+    },
+    {
+      "prompt_id": "dolly-1324",
+      "text": "What are some examples of movies that won best picture in the 1990s?",
+      "source_row_index": 1324
+    },
+    {
+      "prompt_id": "dolly-4490",
+      "text": "Who invented the first electric car?",
+      "source_row_index": 4490
+    },
+    {
+      "prompt_id": "dolly-9020",
+      "text": "What is a synonym for something which is eco friendly?",
+      "source_row_index": 9020
+    },
+    {
+      "prompt_id": "dolly-13277",
+      "text": "Name the nation that was hit badly by Typhoon Hagibis in the last 60 years?",
+      "source_row_index": 13277
+    },
+    {
+      "prompt_id": "dolly-13008",
+      "text": "Why is open source so important?",
+      "source_row_index": 13008
+    },
+    {
+      "prompt_id": "dolly-11695",
+      "text": "Please provide a brief history of coffee",
+      "source_row_index": 11695
+    },
+    {
+      "prompt_id": "dolly-6855",
+      "text": "Where did basketball originate?",
+      "source_row_index": 6855
+    },
+    {
+      "prompt_id": "dolly-11913",
+      "text": "Where did Bo Jackson attend college?",
+      "source_row_index": 11913
+    },
+    {
+      "prompt_id": "dolly-12996",
+      "text": "What are the words of House Tully?",
+      "source_row_index": 12996
+    },
+    {
+      "prompt_id": "dolly-13537",
+      "text": "If I have a dollar, two nickels and a quarter, how much money in total do I have. Please respond with words only, no symbols or numbers.",
+      "source_row_index": 13537
+    },
+    {
+      "prompt_id": "dolly-5818",
+      "text": "What is the show \"The X-Files\" about?",
+      "source_row_index": 5818
+    },
+    {
+      "prompt_id": "dolly-6739",
+      "text": "How soon should you make coffee after grinding the beans?",
+      "source_row_index": 6739
+    },
+    {
+      "prompt_id": "dolly-5889",
+      "text": "How can I decide what bike I should get?",
+      "source_row_index": 5889
+    },
+    {
+      "prompt_id": "dolly-13097",
+      "text": "What is refinancing?",
+      "source_row_index": 13097
+    },
+    {
+      "prompt_id": "dolly-6824",
+      "text": "List some of the best life changing self-help books",
+      "source_row_index": 6824
+    },
+    {
+      "prompt_id": "dolly-2077",
+      "text": "Where is the first Summer Olympics held?",
+      "source_row_index": 2077
+    },
+    {
+      "prompt_id": "dolly-1445",
+      "text": "Which country is alphabetically last",
+      "source_row_index": 1445
+    },
+    {
+      "prompt_id": "dolly-4453",
+      "text": "Give me a list of 10 nematode species",
+      "source_row_index": 4453
+    },
+    {
+      "prompt_id": "dolly-3419",
+      "text": "Who are Daenerys Targaryen's dragons named after?",
+      "source_row_index": 3419
+    },
+    {
+      "prompt_id": "dolly-5439",
+      "text": "What hindi song was used during the credits for the 2006 movie, 'Inside Man', starring Denzel Washington ?",
+      "source_row_index": 5439
+    },
+    {
+      "prompt_id": "dolly-8491",
+      "text": "Who was the first American president?",
+      "source_row_index": 8491
+    },
+    {
+      "prompt_id": "dolly-11752",
+      "text": "What is \"cycling\" in ice hockey?",
+      "source_row_index": 11752
+    },
+    {
+      "prompt_id": "dolly-13007",
+      "text": "What is a noun?",
+      "source_row_index": 13007
+    },
+    {
+      "prompt_id": "dolly-3722",
+      "text": "Which singer’s real name is Stefani Joanne Angelina Germanotta?",
+      "source_row_index": 3722
+    },
+    {
+      "prompt_id": "dolly-1344",
+      "text": "What is a Romance language?",
+      "source_row_index": 1344
+    },
+    {
+      "prompt_id": "dolly-8478",
+      "text": "Who wrote the second episode of season four of Game of Thrones?",
+      "source_row_index": 8478
+    },
+    {
+      "prompt_id": "dolly-12836",
+      "text": "What is the University of Georgia's mascot?",
+      "source_row_index": 12836
+    },
+    {
+      "prompt_id": "dolly-14811",
+      "text": "What are some languages spoken in Mexico?",
+      "source_row_index": 14811
+    },
+    {
+      "prompt_id": "dolly-1541",
+      "text": "What is the oldest type of flight technology?",
+      "source_row_index": 1541
+    },
+    {
+      "prompt_id": "dolly-1429",
+      "text": "Who is Ali G?",
+      "source_row_index": 1429
+    },
+    {
+      "prompt_id": "dolly-6249",
+      "text": "what is love?",
+      "source_row_index": 6249
+    },
+    {
+      "prompt_id": "dolly-7373",
+      "text": "What is a quark?",
+      "source_row_index": 7373
+    },
+    {
+      "prompt_id": "dolly-3662",
+      "text": "What is America's oldest brewery?",
+      "source_row_index": 3662
+    },
+    {
+      "prompt_id": "dolly-3506",
+      "text": "Name four Ivy League schools.",
+      "source_row_index": 3506
+    },
+    {
+      "prompt_id": "dolly-2403",
+      "text": "What is a stock index?",
+      "source_row_index": 2403
+    },
+    {
+      "prompt_id": "dolly-2",
+      "text": "Why can camels survive for long without water?",
+      "source_row_index": 2
+    },
+    {
+      "prompt_id": "dolly-13499",
+      "text": "what are the most popular sports in america",
+      "source_row_index": 13499
+    },
+    {
+      "prompt_id": "dolly-7980",
+      "text": "Who was the greatest President of the United States of America?",
+      "source_row_index": 7980
+    },
+    {
+      "prompt_id": "dolly-3190",
+      "text": "What are the words of House Tallhart?",
+      "source_row_index": 3190
+    },
+    {
+      "prompt_id": "dolly-10297",
+      "text": "Who is the winner of Abel Prize 2022 ?",
+      "source_row_index": 10297
+    },
+    {
+      "prompt_id": "dolly-2960",
+      "text": "How did Jim Henson die?",
+      "source_row_index": 2960
+    },
+    {
+      "prompt_id": "dolly-9619",
+      "text": "What is the primary advantage of a hydrogen fuel cell powered vehicle?",
+      "source_row_index": 9619
+    },
+    {
+      "prompt_id": "dolly-1612",
+      "text": "What does AWS stand for?",
+      "source_row_index": 1612
+    },
+    {
+      "prompt_id": "dolly-2829",
+      "text": "What is a weed wacker?",
+      "source_row_index": 2829
+    },
+    {
+      "prompt_id": "dolly-10745",
+      "text": "What kind of species is the Epophthalmia",
+      "source_row_index": 10745
+    },
+    {
+      "prompt_id": "dolly-7678",
+      "text": "Name five MLB teams in the American League.",
+      "source_row_index": 7678
+    },
+    {
+      "prompt_id": "dolly-14089",
+      "text": "is security a great career",
+      "source_row_index": 14089
+    },
+    {
+      "prompt_id": "dolly-12465",
+      "text": "What planning should you do to visit Walt Disney World?",
+      "source_row_index": 12465
+    },
+    {
+      "prompt_id": "dolly-7537",
+      "text": "What is the standard tuning of an electric guitar?",
+      "source_row_index": 7537
+    },
+    {
+      "prompt_id": "dolly-12028",
+      "text": "When is the first day of summer 2023?",
+      "source_row_index": 12028
+    },
+    {
+      "prompt_id": "dolly-711",
+      "text": "Why is a higher interest rate on my home worse?",
+      "source_row_index": 711
+    },
+    {
+      "prompt_id": "dolly-4068",
+      "text": "What is a Tide?",
+      "source_row_index": 4068
+    },
+    {
+      "prompt_id": "dolly-8908",
+      "text": "Where in the US are the most renowned Pinot Noir wines produced?",
+      "source_row_index": 8908
+    },
+    {
+      "prompt_id": "dolly-12832",
+      "text": "Who sings the song call \"heartbreak anniversary\"?",
+      "source_row_index": 12832
+    },
+    {
+      "prompt_id": "dolly-1985",
+      "text": "Where do chia seeds come from?",
+      "source_row_index": 1985
+    },
+    {
+      "prompt_id": "dolly-11813",
+      "text": "How many episodes in season one of Game of Thrones did Tim Van Patten direct?",
+      "source_row_index": 11813
+    },
+    {
+      "prompt_id": "dolly-6987",
+      "text": "How to go on a road trip with kids?",
+      "source_row_index": 6987
+    },
+    {
+      "prompt_id": "dolly-11652",
+      "text": "where does the word dynamite come from?",
+      "source_row_index": 11652
+    },
+    {
+      "prompt_id": "dolly-4531",
+      "text": "What is a list of knitting pattern abbreviations and their meanings?",
+      "source_row_index": 4531
+    },
+    {
+      "prompt_id": "dolly-14239",
+      "text": "What kind of socks do grizzlies wear?",
+      "source_row_index": 14239
+    },
+    {
+      "prompt_id": "dolly-8268",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Crayne?",
+      "source_row_index": 8268
+    },
+    {
+      "prompt_id": "dolly-11773",
+      "text": "What are some popular books about baseball?",
+      "source_row_index": 11773
+    },
+    {
+      "prompt_id": "dolly-7806",
+      "text": "What is the most popular opening in chess?",
+      "source_row_index": 7806
+    },
+    {
+      "prompt_id": "dolly-950",
+      "text": "What are the main ingredients for making bread?",
+      "source_row_index": 950
+    },
+    {
+      "prompt_id": "dolly-11795",
+      "text": "What are the different RAID configurations?",
+      "source_row_index": 11795
+    },
+    {
+      "prompt_id": "dolly-11478",
+      "text": "Please provide some resources that will help me think through the process of creating an online course.",
+      "source_row_index": 11478
+    },
+    {
+      "prompt_id": "dolly-6702",
+      "text": "What is Categorization and Sentiment Analysis",
+      "source_row_index": 6702
+    },
+    {
+      "prompt_id": "dolly-2460",
+      "text": "What is email?",
+      "source_row_index": 2460
+    },
+    {
+      "prompt_id": "dolly-3714",
+      "text": "What are the books in the 'A Song of Ice and Fire' series and when were they released?",
+      "source_row_index": 3714
+    },
+    {
+      "prompt_id": "dolly-5526",
+      "text": "What was the cause of Michael Jackson's death?",
+      "source_row_index": 5526
+    },
+    {
+      "prompt_id": "dolly-2067",
+      "text": "What are some of the highest-rated episodes of The X-Files, based on viewer's ratings?",
+      "source_row_index": 2067
+    },
+    {
+      "prompt_id": "dolly-3701",
+      "text": "What kind of plant is the Harrisonia",
+      "source_row_index": 3701
+    },
+    {
+      "prompt_id": "dolly-13968",
+      "text": "What are some of the major food allergens in the USA?",
+      "source_row_index": 13968
+    },
+    {
+      "prompt_id": "dolly-13969",
+      "text": "If someone is tall, what sport should they try?",
+      "source_row_index": 13969
+    },
+    {
+      "prompt_id": "dolly-7308",
+      "text": "How do you train for a half marathon?",
+      "source_row_index": 7308
+    },
+    {
+      "prompt_id": "dolly-7707",
+      "text": "Who is John Melo",
+      "source_row_index": 7707
+    },
+    {
+      "prompt_id": "dolly-14638",
+      "text": "What is Gingham fabric?",
+      "source_row_index": 14638
+    },
+    {
+      "prompt_id": "dolly-14996",
+      "text": "What does troll the respawn, Jeremy mean?",
+      "source_row_index": 14996
+    },
+    {
+      "prompt_id": "dolly-12023",
+      "text": "What is Kendrick Lamar famous for?",
+      "source_row_index": 12023
+    },
+    {
+      "prompt_id": "dolly-3644",
+      "text": "What country has the most all time medals at the Winter Olympics?",
+      "source_row_index": 3644
+    },
+    {
+      "prompt_id": "dolly-7174",
+      "text": "Which day is the hardest for crossword puzzles?",
+      "source_row_index": 7174
+    },
+    {
+      "prompt_id": "dolly-2340",
+      "text": "When is the best time of year to visit the Smoky Mountains?",
+      "source_row_index": 2340
+    },
+    {
+      "prompt_id": "dolly-13608",
+      "text": "What are the Spice Girls nicknames?",
+      "source_row_index": 13608
+    },
+    {
+      "prompt_id": "dolly-3086",
+      "text": "Why do people eat food?",
+      "source_row_index": 3086
+    },
+    {
+      "prompt_id": "dolly-12006",
+      "text": "What is RTGS?",
+      "source_row_index": 12006
+    },
+    {
+      "prompt_id": "dolly-14688",
+      "text": "What are the words of House Waxley?",
+      "source_row_index": 14688
+    },
+    {
+      "prompt_id": "dolly-2241",
+      "text": "What is considered as DACH region?",
+      "source_row_index": 2241
+    },
+    {
+      "prompt_id": "dolly-3122",
+      "text": "What was the purpose of Major League Baseball's rule changes this year?",
+      "source_row_index": 3122
+    },
+    {
+      "prompt_id": "dolly-13759",
+      "text": "What city has Kogoshima as its airport",
+      "source_row_index": 13759
+    },
+    {
+      "prompt_id": "dolly-11275",
+      "text": "In a website browser address bar, what does “www” stand for?",
+      "source_row_index": 11275
+    },
+    {
+      "prompt_id": "dolly-9349",
+      "text": "What's a good 5-day itinerary for visiting the Amalfi Coast?",
+      "source_row_index": 9349
+    },
+    {
+      "prompt_id": "dolly-7852",
+      "text": "How many professional basketball teams are based in California?",
+      "source_row_index": 7852
+    },
+    {
+      "prompt_id": "dolly-6585",
+      "text": "What is the capital of CA?",
+      "source_row_index": 6585
+    },
+    {
+      "prompt_id": "dolly-1153",
+      "text": "Home many storage options does Azure Synapse provide?",
+      "source_row_index": 1153
+    },
+    {
+      "prompt_id": "dolly-14680",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Frey?",
+      "source_row_index": 14680
+    },
+    {
+      "prompt_id": "dolly-3259",
+      "text": "Who is the successor of Queen Elizabeth II ?",
+      "source_row_index": 3259
+    },
+    {
+      "prompt_id": "dolly-5172",
+      "text": "Polly, a 51-year-old female, visits your fitness facility. Polly has been told she has pre-diabetes. Explain to her what this means. What role can exercise play in reversing this?",
+      "source_row_index": 5172
+    },
+    {
+      "prompt_id": "dolly-1489",
+      "text": "Which NFL teams have gone to the Super Bowl only once and won?",
+      "source_row_index": 1489
+    },
+    {
+      "prompt_id": "dolly-12342",
+      "text": "What are legos?",
+      "source_row_index": 12342
+    },
+    {
+      "prompt_id": "dolly-14428",
+      "text": "What is an anemone?",
+      "source_row_index": 14428
+    },
+    {
+      "prompt_id": "dolly-7995",
+      "text": "What is the most popular breed of dog to have as a pet in the United States?",
+      "source_row_index": 7995
+    },
+    {
+      "prompt_id": "dolly-7102",
+      "text": "What is the best hand in poker?",
+      "source_row_index": 7102
+    },
+    {
+      "prompt_id": "dolly-351",
+      "text": "What do you know about the city of Aberdeen in Scotland?",
+      "source_row_index": 351
+    },
+    {
+      "prompt_id": "dolly-14048",
+      "text": "What is Solidarity Tax?",
+      "source_row_index": 14048
+    },
+    {
+      "prompt_id": "dolly-5409",
+      "text": "Who is Daniel Ricciardo?",
+      "source_row_index": 5409
+    },
+    {
+      "prompt_id": "dolly-2252",
+      "text": "What are three popular movies with Steve Carell?",
+      "source_row_index": 2252
+    },
+    {
+      "prompt_id": "dolly-12703",
+      "text": "What is Azure SQL used for?",
+      "source_row_index": 12703
+    },
+    {
+      "prompt_id": "dolly-7274",
+      "text": "When Aegon the Conqueror took over Westeros, which great house of the Reach became extinct as a result?",
+      "source_row_index": 7274
+    },
+    {
+      "prompt_id": "dolly-5666",
+      "text": "\"The Day the Music Died\" refers to the tragic deaths of which artists?",
+      "source_row_index": 5666
+    },
+    {
+      "prompt_id": "dolly-3482",
+      "text": "Why is Peter Pan usually portrayed by a female on stage performances (not movies)?",
+      "source_row_index": 3482
+    },
+    {
+      "prompt_id": "dolly-7318",
+      "text": "What is the best time of the year to visit Paris?",
+      "source_row_index": 7318
+    },
+    {
+      "prompt_id": "dolly-8097",
+      "text": "What is a compound statement?",
+      "source_row_index": 8097
+    },
+    {
+      "prompt_id": "dolly-764",
+      "text": "Who wrote the Great Gatsby?",
+      "source_row_index": 764
+    },
+    {
+      "prompt_id": "dolly-5789",
+      "text": "2022 UEFA European Under 19 Championship qualification",
+      "source_row_index": 5789
+    },
+    {
+      "prompt_id": "dolly-2556",
+      "text": "What is sphingosine?",
+      "source_row_index": 2556
+    },
+    {
+      "prompt_id": "dolly-7607",
+      "text": "In what state is Yosemite located?",
+      "source_row_index": 7607
+    },
+    {
+      "prompt_id": "dolly-6785",
+      "text": "What are examples of famous plays written by William Shakespeare?",
+      "source_row_index": 6785
+    },
+    {
+      "prompt_id": "dolly-4995",
+      "text": "Is Pluto a planet ?",
+      "source_row_index": 4995
+    },
+    {
+      "prompt_id": "dolly-7451",
+      "text": "what is philosophy?",
+      "source_row_index": 7451
+    },
+    {
+      "prompt_id": "dolly-3448",
+      "text": "Name some plays that were written by Shakespeare",
+      "source_row_index": 3448
+    },
+    {
+      "prompt_id": "dolly-7210",
+      "text": "What causes revenue to decline?",
+      "source_row_index": 7210
+    },
+    {
+      "prompt_id": "dolly-6984",
+      "text": "What is a protractor?",
+      "source_row_index": 6984
+    },
+    {
+      "prompt_id": "dolly-9618",
+      "text": "What are some of the most popular womens sports in North America",
+      "source_row_index": 9618
+    },
+    {
+      "prompt_id": "dolly-9970",
+      "text": "What is the Taylor rule?",
+      "source_row_index": 9970
+    },
+    {
+      "prompt_id": "dolly-6531",
+      "text": "Who has the most #1 hits in music?",
+      "source_row_index": 6531
+    },
+    {
+      "prompt_id": "dolly-14220",
+      "text": "Name all of the NBA Championship teams in history.",
+      "source_row_index": 14220
+    },
+    {
+      "prompt_id": "dolly-6789",
+      "text": "Name some famous books on philosophy?",
+      "source_row_index": 6789
+    },
+    {
+      "prompt_id": "dolly-2397",
+      "text": "What is a sleeping bag?",
+      "source_row_index": 2397
+    },
+    {
+      "prompt_id": "dolly-5456",
+      "text": "What was the result of the Emancipation Proclamation?",
+      "source_row_index": 5456
+    },
+    {
+      "prompt_id": "dolly-3544",
+      "text": "What are the words of House Mooton?",
+      "source_row_index": 3544
+    },
+    {
+      "prompt_id": "dolly-1188",
+      "text": "What is net worth?",
+      "source_row_index": 1188
+    },
+    {
+      "prompt_id": "dolly-4142",
+      "text": "What is the movie \"Everything Everywhere All at Once\" about?",
+      "source_row_index": 4142
+    },
+    {
+      "prompt_id": "dolly-13387",
+      "text": "How does a noise-cancelling headphone work?",
+      "source_row_index": 13387
+    },
+    {
+      "prompt_id": "dolly-6596",
+      "text": "Name a Jane Austen book.",
+      "source_row_index": 6596
+    },
+    {
+      "prompt_id": "dolly-10082",
+      "text": "Explain in few words how traditional exploratory data analysis (in statistics) is different from machine learning?",
+      "source_row_index": 10082
+    },
+    {
+      "prompt_id": "dolly-3523",
+      "text": "Who was Severus Snape secretly in love with?",
+      "source_row_index": 3523
+    },
+    {
+      "prompt_id": "dolly-12582",
+      "text": "What is Assembler?",
+      "source_row_index": 12582
+    },
+    {
+      "prompt_id": "dolly-1366",
+      "text": "What gear do you need to go on a backpacking trip?",
+      "source_row_index": 1366
+    },
+    {
+      "prompt_id": "dolly-2463",
+      "text": "How fast can an ostrich run?",
+      "source_row_index": 2463
+    },
+    {
+      "prompt_id": "dolly-11677",
+      "text": "What is man's best friend?",
+      "source_row_index": 11677
+    },
+    {
+      "prompt_id": "dolly-9254",
+      "text": "Are Air Fryers safe to use?",
+      "source_row_index": 9254
+    },
+    {
+      "prompt_id": "dolly-1121",
+      "text": "Name five cities in the state of Texas.",
+      "source_row_index": 1121
+    },
+    {
+      "prompt_id": "dolly-10246",
+      "text": "What is Humanism?",
+      "source_row_index": 10246
+    },
+    {
+      "prompt_id": "dolly-869",
+      "text": "Name the Khals known to currently be alive in A Song of Ice and Fire.",
+      "source_row_index": 869
+    },
+    {
+      "prompt_id": "dolly-3965",
+      "text": "What are some ways to tenderize beef?",
+      "source_row_index": 3965
+    },
+    {
+      "prompt_id": "dolly-6446",
+      "text": "How many syllables are in the word cat?",
+      "source_row_index": 6446
+    },
+    {
+      "prompt_id": "dolly-7900",
+      "text": "In what century was the airplane commercialized?",
+      "source_row_index": 7900
+    },
+    {
+      "prompt_id": "dolly-12561",
+      "text": "Which state joined the US on March 15, 1820?",
+      "source_row_index": 12561
+    },
+    {
+      "prompt_id": "dolly-9391",
+      "text": "Why do people like cats?",
+      "source_row_index": 9391
+    },
+    {
+      "prompt_id": "dolly-14677",
+      "text": "In World Wrestling Championship 2022 Free Style Wrestling India won 2 bronze medals out of total how many medals",
+      "source_row_index": 14677
+    },
+    {
+      "prompt_id": "dolly-11329",
+      "text": "What is the major source of income in Ethiopia and why its important?",
+      "source_row_index": 11329
+    },
+    {
+      "prompt_id": "dolly-3434",
+      "text": "How did India get independence from colonial rule",
+      "source_row_index": 3434
+    },
+    {
+      "prompt_id": "dolly-6486",
+      "text": "What popular books did Stephen King author?",
+      "source_row_index": 6486
+    },
+    {
+      "prompt_id": "dolly-3648",
+      "text": "What was special about the 2021 Formula 1 World Championship?",
+      "source_row_index": 3648
+    },
+    {
+      "prompt_id": "dolly-12349",
+      "text": "Name three beaches in Pinellas County, Florida",
+      "source_row_index": 12349
+    },
+    {
+      "prompt_id": "dolly-14319",
+      "text": "What is RSU?",
+      "source_row_index": 14319
+    },
+    {
+      "prompt_id": "dolly-8806",
+      "text": "What kind of bears can you see in the Katmai National Park and Preserve?",
+      "source_row_index": 8806
+    },
+    {
+      "prompt_id": "dolly-520",
+      "text": "In a bingo game, which number is represented by the phrase “two little ducks”?",
+      "source_row_index": 520
+    },
+    {
+      "prompt_id": "dolly-1071",
+      "text": "What is a bond",
+      "source_row_index": 1071
+    },
+    {
+      "prompt_id": "dolly-12759",
+      "text": "Is it possible to visit the German Bundestag?",
+      "source_row_index": 12759
+    },
+    {
+      "prompt_id": "dolly-6494",
+      "text": "What are the four standard sizes of beds in the United States?",
+      "source_row_index": 6494
+    },
+    {
+      "prompt_id": "dolly-3513",
+      "text": "To which species does Allium desertorum belong",
+      "source_row_index": 3513
+    },
+    {
+      "prompt_id": "dolly-8888",
+      "text": "Which of the following city has the highest historical monuments?",
+      "source_row_index": 8888
+    },
+    {
+      "prompt_id": "dolly-6183",
+      "text": "Who's band was The Quarrymen",
+      "source_row_index": 6183
+    },
+    {
+      "prompt_id": "dolly-3351",
+      "text": "What are the four largest British Virgin Islands?",
+      "source_row_index": 3351
+    },
+    {
+      "prompt_id": "dolly-4900",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Hightower?",
+      "source_row_index": 4900
+    },
+    {
+      "prompt_id": "dolly-13355",
+      "text": "What is the answer to life, the universe, and everything?",
+      "source_row_index": 13355
+    },
+    {
+      "prompt_id": "dolly-7992",
+      "text": "What is the difference between a stand up paddle board and a kayak?",
+      "source_row_index": 7992
+    },
+    {
+      "prompt_id": "dolly-10793",
+      "text": "Who invented Boltzmann Machines?",
+      "source_row_index": 10793
+    },
+    {
+      "prompt_id": "dolly-5759",
+      "text": "What year was Genghis Khan born?",
+      "source_row_index": 5759
+    },
+    {
+      "prompt_id": "dolly-1823",
+      "text": "What is the Foresight discipline?",
+      "source_row_index": 1823
+    },
+    {
+      "prompt_id": "dolly-9013",
+      "text": "In English do adjectives go before or after nouns they describe?",
+      "source_row_index": 9013
+    },
+    {
+      "prompt_id": "dolly-14329",
+      "text": "What is the largest lake in Switzerland?",
+      "source_row_index": 14329
+    },
+    {
+      "prompt_id": "dolly-6976",
+      "text": "What is a landlord?",
+      "source_row_index": 6976
+    },
+    {
+      "prompt_id": "dolly-9033",
+      "text": "What are some of the best outdoor experiences in Italy?",
+      "source_row_index": 9033
+    },
+    {
+      "prompt_id": "dolly-12137",
+      "text": "Why isn't Puerto Rico a US state?",
+      "source_row_index": 12137
+    },
+    {
+      "prompt_id": "dolly-284",
+      "text": "What is Game of Thrones based on?",
+      "source_row_index": 284
+    },
+    {
+      "prompt_id": "dolly-983",
+      "text": "What are popular street foods from Maharashtra in India",
+      "source_row_index": 983
+    },
+    {
+      "prompt_id": "dolly-730",
+      "text": "What genre did the Chicks (formerly the Dixie Chicks) begin their career in?",
+      "source_row_index": 730
+    },
+    {
+      "prompt_id": "dolly-2851",
+      "text": "Why is LaSalle Street in Chicago important?",
+      "source_row_index": 2851
+    },
+    {
+      "prompt_id": "dolly-13113",
+      "text": "What is a modem?",
+      "source_row_index": 13113
+    },
+    {
+      "prompt_id": "dolly-7760",
+      "text": "Which soccer player has the most number of career goals?",
+      "source_row_index": 7760
+    },
+    {
+      "prompt_id": "dolly-1191",
+      "text": "What are the primary causes of inflation?",
+      "source_row_index": 1191
+    },
+    {
+      "prompt_id": "dolly-757",
+      "text": "What color is the Rainbow?",
+      "source_row_index": 757
+    },
+    {
+      "prompt_id": "dolly-2963",
+      "text": "What are startup fundraising rounds?",
+      "source_row_index": 2963
+    },
+    {
+      "prompt_id": "dolly-11376",
+      "text": "Why do you want to keep customers happy?",
+      "source_row_index": 11376
+    },
+    {
+      "prompt_id": "dolly-14531",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Tyrell?",
+      "source_row_index": 14531
+    },
+    {
+      "prompt_id": "dolly-4386",
+      "text": "When is the Indian Teachers day celebrated?",
+      "source_row_index": 4386
+    },
+    {
+      "prompt_id": "dolly-12883",
+      "text": "Who won man booker International prize 2018?",
+      "source_row_index": 12883
+    },
+    {
+      "prompt_id": "dolly-2310",
+      "text": "How do sailplanes (gliders) stay aloft?",
+      "source_row_index": 2310
+    },
+    {
+      "prompt_id": "dolly-13281",
+      "text": "Which second-season episode of Game of Thrones did Neil Marshall direct?",
+      "source_row_index": 13281
+    },
+    {
+      "prompt_id": "dolly-10786",
+      "text": "How do airplanes land?",
+      "source_row_index": 10786
+    },
+    {
+      "prompt_id": "dolly-10225",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Durrandon?",
+      "source_row_index": 10225
+    },
+    {
+      "prompt_id": "dolly-7677",
+      "text": "Where is the best place to work in my house?",
+      "source_row_index": 7677
+    },
+    {
+      "prompt_id": "dolly-3228",
+      "text": "Why is customer obsession important",
+      "source_row_index": 3228
+    },
+    {
+      "prompt_id": "dolly-2942",
+      "text": "What Is the Population of San Francisco and the Bay Area?",
+      "source_row_index": 2942
+    },
+    {
+      "prompt_id": "dolly-1414",
+      "text": "What are the Grand Slams of tennis?",
+      "source_row_index": 1414
+    },
+    {
+      "prompt_id": "dolly-11394",
+      "text": "What are common titles for the executives of large companies?",
+      "source_row_index": 11394
+    },
+    {
+      "prompt_id": "dolly-6741",
+      "text": "What film released and set in 1985 features Doc Brown's Delorean time machine that takes Marty McFly back to 1955 where he inadvertently prevented his birth by intervening when his mother and father first met and fell in love?",
+      "source_row_index": 6741
+    },
+    {
+      "prompt_id": "dolly-494",
+      "text": "What is the largest city in Washington state?",
+      "source_row_index": 494
+    },
+    {
+      "prompt_id": "dolly-5692",
+      "text": "What are the most popular tropical travel destinations for people on the east coast of the United States?",
+      "source_row_index": 5692
+    },
+    {
+      "prompt_id": "dolly-756",
+      "text": "Which Game of Thrones episode does Arya go blind?",
+      "source_row_index": 756
+    },
+    {
+      "prompt_id": "dolly-8134",
+      "text": "Why should I use toothpaste",
+      "source_row_index": 8134
+    },
+    {
+      "prompt_id": "dolly-5385",
+      "text": "What makes bread rise?",
+      "source_row_index": 5385
+    },
+    {
+      "prompt_id": "dolly-10340",
+      "text": "What shape is the constellation of Orion?",
+      "source_row_index": 10340
+    },
+    {
+      "prompt_id": "dolly-2959",
+      "text": "Name some of the best tourist spots in USA?",
+      "source_row_index": 2959
+    },
+    {
+      "prompt_id": "dolly-11591",
+      "text": "Who is the fastest person on earth?",
+      "source_row_index": 11591
+    },
+    {
+      "prompt_id": "dolly-10621",
+      "text": "What are the three original citrus fruits?",
+      "source_row_index": 10621
+    },
+    {
+      "prompt_id": "dolly-1125",
+      "text": "Which episode did Daenerys Targaryen lose her dragon, Viserion, to a White Walker's spear?",
+      "source_row_index": 1125
+    },
+    {
+      "prompt_id": "dolly-1073",
+      "text": "What is nomadism?",
+      "source_row_index": 1073
+    },
+    {
+      "prompt_id": "dolly-3455",
+      "text": "What is a popular mystery book series?",
+      "source_row_index": 3455
+    },
+    {
+      "prompt_id": "dolly-5877",
+      "text": "is IT a great career",
+      "source_row_index": 5877
+    },
+    {
+      "prompt_id": "dolly-9372",
+      "text": "What are snowshoes?",
+      "source_row_index": 9372
+    },
+    {
+      "prompt_id": "dolly-6455",
+      "text": "What are the qualities of good compost for a vegetable garden?",
+      "source_row_index": 6455
+    },
+    {
+      "prompt_id": "dolly-14103",
+      "text": "Why do people move/sway during music?",
+      "source_row_index": 14103
+    },
+    {
+      "prompt_id": "dolly-11224",
+      "text": "What kind of bacteria is Bifidobacterium thermacidophilum",
+      "source_row_index": 11224
+    },
+    {
+      "prompt_id": "dolly-12701",
+      "text": "What is the difference between a sunny side up egg and a scrambled egg?",
+      "source_row_index": 12701
+    },
+    {
+      "prompt_id": "dolly-14398",
+      "text": "Where is the home country of Joan of Arc?",
+      "source_row_index": 14398
+    },
+    {
+      "prompt_id": "dolly-7693",
+      "text": "What is the GE Dash 8-32BWH",
+      "source_row_index": 7693
+    },
+    {
+      "prompt_id": "dolly-7857",
+      "text": "Which team's have the most NCAA Division I men's basketball championships?",
+      "source_row_index": 7857
+    },
+    {
+      "prompt_id": "dolly-697",
+      "text": "What is the Von Neumann architecture?",
+      "source_row_index": 697
+    },
+    {
+      "prompt_id": "dolly-10996",
+      "text": "What is the difference between a guitar and bass?",
+      "source_row_index": 10996
+    },
+    {
+      "prompt_id": "dolly-3846",
+      "text": "What is the state bird of Texas?",
+      "source_row_index": 3846
+    },
+    {
+      "prompt_id": "dolly-2336",
+      "text": "What is the name of Google's email service?",
+      "source_row_index": 2336
+    },
+    {
+      "prompt_id": "dolly-12639",
+      "text": "What equipment is required for scuba diving?",
+      "source_row_index": 12639
+    },
+    {
+      "prompt_id": "dolly-13748",
+      "text": "What are the words of House Hightower?",
+      "source_row_index": 13748
+    },
+    {
+      "prompt_id": "dolly-13937",
+      "text": "Who won the FIFA World Cup 2014?",
+      "source_row_index": 13937
+    },
+    {
+      "prompt_id": "dolly-1962",
+      "text": "Where was the beer Yuengling founded?",
+      "source_row_index": 1962
+    },
+    {
+      "prompt_id": "dolly-8707",
+      "text": "What is Credit scoring?",
+      "source_row_index": 8707
+    },
+    {
+      "prompt_id": "dolly-3699",
+      "text": "Please give me details about the French submarine Requin",
+      "source_row_index": 3699
+    },
+    {
+      "prompt_id": "dolly-6697",
+      "text": "What's the best BBQ place in Austin",
+      "source_row_index": 6697
+    },
+    {
+      "prompt_id": "dolly-1851",
+      "text": "What were the last ten states to enter the union of the United States?",
+      "source_row_index": 1851
+    },
+    {
+      "prompt_id": "dolly-6663",
+      "text": "What is the best hand in Texas Hold'em poker?",
+      "source_row_index": 6663
+    },
+    {
+      "prompt_id": "dolly-3640",
+      "text": "What Is a Request for Proposal (RFP)?",
+      "source_row_index": 3640
+    },
+    {
+      "prompt_id": "dolly-11799",
+      "text": "Who created the first piano?",
+      "source_row_index": 11799
+    },
+    {
+      "prompt_id": "dolly-7432",
+      "text": "What is elite shungite?",
+      "source_row_index": 7432
+    },
+    {
+      "prompt_id": "dolly-646",
+      "text": "What are the key benefits of Delta Live Tables?",
+      "source_row_index": 646
+    },
+    {
+      "prompt_id": "dolly-5170",
+      "text": "What is the largest animal in the world",
+      "source_row_index": 5170
+    },
+    {
+      "prompt_id": "dolly-13887",
+      "text": "Name the past 5 FIFA World Cup Champions",
+      "source_row_index": 13887
+    },
+    {
+      "prompt_id": "dolly-5119",
+      "text": "What is the best programming language?",
+      "source_row_index": 5119
+    },
+    {
+      "prompt_id": "dolly-12901",
+      "text": "What are some of the main themes of Jane Eyre",
+      "source_row_index": 12901
+    },
+    {
+      "prompt_id": "dolly-3111",
+      "text": "How did Caesar come to power in Rome?",
+      "source_row_index": 3111
+    },
+    {
+      "prompt_id": "dolly-11268",
+      "text": "What is Swift?",
+      "source_row_index": 11268
+    },
+    {
+      "prompt_id": "dolly-293",
+      "text": "How do you make soap?",
+      "source_row_index": 293
+    },
+    {
+      "prompt_id": "dolly-13329",
+      "text": "What is 24 Hours of Lemons",
+      "source_row_index": 13329
+    },
+    {
+      "prompt_id": "dolly-3860",
+      "text": "What city did Beatrice Prior live in?",
+      "source_row_index": 3860
+    },
+    {
+      "prompt_id": "dolly-9412",
+      "text": "What is the fastest street legal car, actually demonstrated, in the world?",
+      "source_row_index": 9412
+    },
+    {
+      "prompt_id": "dolly-10933",
+      "text": "Why do we have work meetings?",
+      "source_row_index": 10933
+    },
+    {
+      "prompt_id": "dolly-5955",
+      "text": "What are some important things that have happened on the Day April 6?",
+      "source_row_index": 5955
+    },
+    {
+      "prompt_id": "dolly-12852",
+      "text": "What are the only three ingredients to make authentic Chantilly cream?",
+      "source_row_index": 12852
+    },
+    {
+      "prompt_id": "dolly-14952",
+      "text": "Where did Alexander Digeon fought",
+      "source_row_index": 14952
+    },
+    {
+      "prompt_id": "dolly-9979",
+      "text": "What is Prometheus?",
+      "source_row_index": 9979
+    },
+    {
+      "prompt_id": "dolly-8370",
+      "text": "In music, what is a triad?",
+      "source_row_index": 8370
+    },
+    {
+      "prompt_id": "dolly-14377",
+      "text": "What does it mean if something \"slaps\"?",
+      "source_row_index": 14377
+    },
+    {
+      "prompt_id": "dolly-14909",
+      "text": "What is Bart Simpson's graffiti tag?",
+      "source_row_index": 14909
+    },
+    {
+      "prompt_id": "dolly-8060",
+      "text": "What kind of sports can I watch?",
+      "source_row_index": 8060
+    },
+    {
+      "prompt_id": "dolly-9751",
+      "text": "What are the differences between a ukulele and guitar?",
+      "source_row_index": 9751
+    },
+    {
+      "prompt_id": "dolly-6242",
+      "text": "Which is India's 3rd Company which has crossed $100 billion market capitalization in Intraday trading?",
+      "source_row_index": 6242
+    },
+    {
+      "prompt_id": "dolly-6098",
+      "text": "Where Is The Charging Port On A Tesla Model Y?",
+      "source_row_index": 6098
+    },
+    {
+      "prompt_id": "dolly-12663",
+      "text": "What are the names of some great New England Patriots football players?",
+      "source_row_index": 12663
+    },
+    {
+      "prompt_id": "dolly-792",
+      "text": "Eminem's 8 Mile is named after a road in which city?",
+      "source_row_index": 792
+    },
+    {
+      "prompt_id": "dolly-6451",
+      "text": "How does the Stock Market work?",
+      "source_row_index": 6451
+    },
+    {
+      "prompt_id": "dolly-9321",
+      "text": "What is a group loan?",
+      "source_row_index": 9321
+    },
+    {
+      "prompt_id": "dolly-4398",
+      "text": "What is a balloon?",
+      "source_row_index": 4398
+    },
+    {
+      "prompt_id": "dolly-1472",
+      "text": "What are the pros and cons of working from home rather than going into an office downtown?",
+      "source_row_index": 1472
+    },
+    {
+      "prompt_id": "dolly-7667",
+      "text": "The Award Palme d’or was given to whom?",
+      "source_row_index": 7667
+    },
+    {
+      "prompt_id": "dolly-14922",
+      "text": "In which European city would you find Orly airport?",
+      "source_row_index": 14922
+    },
+    {
+      "prompt_id": "dolly-11231",
+      "text": "Who is the only US president elected from Pennsylvania?",
+      "source_row_index": 11231
+    },
+    {
+      "prompt_id": "dolly-12187",
+      "text": "What is a speedrun in video games?",
+      "source_row_index": 12187
+    },
+    {
+      "prompt_id": "dolly-1721",
+      "text": "Where were the Declaration of Independence, the Constitution, and the Bill of Rights stored during World War II?",
+      "source_row_index": 1721
+    },
+    {
+      "prompt_id": "dolly-1082",
+      "text": "Total 15 PMs served under Queen Elizabeth II, name the last PM",
+      "source_row_index": 1082
+    },
+    {
+      "prompt_id": "dolly-116",
+      "text": "What is the name of the Winslow's nerdy next-door neighbor on the TV show \"Family Matters\"?",
+      "source_row_index": 116
+    },
+    {
+      "prompt_id": "dolly-12909",
+      "text": "What links the names Botvinik, Tal, Karpov, Fischer",
+      "source_row_index": 12909
+    },
+    {
+      "prompt_id": "dolly-8703",
+      "text": "Who won the India’s highest literary award 56th Jnanpith award",
+      "source_row_index": 8703
+    },
+    {
+      "prompt_id": "dolly-12039",
+      "text": "what is oracle?",
+      "source_row_index": 12039
+    },
+    {
+      "prompt_id": "dolly-6176",
+      "text": "List the ten episode titles from the fifth season of \"Game of Thrones\" in broadcast order.",
+      "source_row_index": 6176
+    },
+    {
+      "prompt_id": "dolly-14729",
+      "text": "Queen Elizabeth II was born on April 21, 1926 in",
+      "source_row_index": 14729
+    },
+    {
+      "prompt_id": "dolly-10897",
+      "text": "How much money did George Lucas get for selling Lucasfilm to Disney?",
+      "source_row_index": 10897
+    },
+    {
+      "prompt_id": "dolly-3702",
+      "text": "What is an adjective?",
+      "source_row_index": 3702
+    },
+    {
+      "prompt_id": "dolly-12711",
+      "text": "What is Scala?",
+      "source_row_index": 12711
+    },
+    {
+      "prompt_id": "dolly-2319",
+      "text": "What family was well known for their power in Renaissance Italy?",
+      "source_row_index": 2319
+    },
+    {
+      "prompt_id": "dolly-11884",
+      "text": "What is photosynthesis?",
+      "source_row_index": 11884
+    },
+    {
+      "prompt_id": "dolly-14486",
+      "text": "Name some television shows that were popular on Nickelodeon in the 1990s.",
+      "source_row_index": 14486
+    },
+    {
+      "prompt_id": "dolly-13181",
+      "text": "what are non-fungible token",
+      "source_row_index": 13181
+    },
+    {
+      "prompt_id": "dolly-1961",
+      "text": "Can you explain the Keto diet and ketosis?",
+      "source_row_index": 1961
+    },
+    {
+      "prompt_id": "dolly-6403",
+      "text": "Can you put metal in a microwave?",
+      "source_row_index": 6403
+    },
+    {
+      "prompt_id": "dolly-14029",
+      "text": "What is tertiary analysis?",
+      "source_row_index": 14029
+    },
+    {
+      "prompt_id": "dolly-197",
+      "text": "What is one year?",
+      "source_row_index": 197
+    },
+    {
+      "prompt_id": "dolly-7549",
+      "text": "What was the first Pink Floyd album",
+      "source_row_index": 7549
+    },
+    {
+      "prompt_id": "dolly-13511",
+      "text": "what is the mascot of Garfield High School in Seattle?",
+      "source_row_index": 13511
+    },
+    {
+      "prompt_id": "dolly-5709",
+      "text": "What is AWS EKS?",
+      "source_row_index": 5709
+    },
+    {
+      "prompt_id": "dolly-8079",
+      "text": "What is data engineering?",
+      "source_row_index": 8079
+    },
+    {
+      "prompt_id": "dolly-10448",
+      "text": "What is the mascot of Cornell University?",
+      "source_row_index": 10448
+    },
+    {
+      "prompt_id": "dolly-3403",
+      "text": "What is a stock in finance?",
+      "source_row_index": 3403
+    },
+    {
+      "prompt_id": "dolly-4873",
+      "text": "What is the difference between a simile and a metaphor?",
+      "source_row_index": 4873
+    },
+    {
+      "prompt_id": "dolly-9044",
+      "text": "Who is the Cigarette Smoking Man?",
+      "source_row_index": 9044
+    },
+    {
+      "prompt_id": "dolly-13755",
+      "text": "What is considered a good meal?",
+      "source_row_index": 13755
+    },
+    {
+      "prompt_id": "dolly-8193",
+      "text": "How do you generate power in a roundhouse kick in Muay Thai?",
+      "source_row_index": 8193
+    },
+    {
+      "prompt_id": "dolly-8840",
+      "text": "Why is standard guitar tuning EADGBE?",
+      "source_row_index": 8840
+    },
+    {
+      "prompt_id": "dolly-10459",
+      "text": "Who has been elected as the 15th President of India?",
+      "source_row_index": 10459
+    },
+    {
+      "prompt_id": "dolly-8747",
+      "text": "What is the Azure equivalent of EKS?",
+      "source_row_index": 8747
+    },
+    {
+      "prompt_id": "dolly-13034",
+      "text": "What is slack key guitar?",
+      "source_row_index": 13034
+    },
+    {
+      "prompt_id": "dolly-695",
+      "text": "What country has hosted the Olympic Games the most often?",
+      "source_row_index": 695
+    },
+    {
+      "prompt_id": "dolly-3029",
+      "text": "Why do I have blonde hair?",
+      "source_row_index": 3029
+    },
+    {
+      "prompt_id": "dolly-9543",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Corbray?",
+      "source_row_index": 9543
+    },
+    {
+      "prompt_id": "dolly-11094",
+      "text": "When Joan of Arc was beatified in the famous Notre Dame cathedral in Paris?",
+      "source_row_index": 11094
+    },
+    {
+      "prompt_id": "dolly-5109",
+      "text": "What are the words of House Penrose?",
+      "source_row_index": 5109
+    },
+    {
+      "prompt_id": "dolly-6997",
+      "text": "Which rock star is known to consume heavy amounts of drugs and it surprising he has live this long?",
+      "source_row_index": 6997
+    },
+    {
+      "prompt_id": "dolly-1043",
+      "text": "Who was the Greek goddess of love",
+      "source_row_index": 1043
+    },
+    {
+      "prompt_id": "dolly-2171",
+      "text": "What is the only established city of the Dothraki people?",
+      "source_row_index": 2171
+    },
+    {
+      "prompt_id": "dolly-3502",
+      "text": "Bioinformatics",
+      "source_row_index": 3502
+    },
+    {
+      "prompt_id": "dolly-13983",
+      "text": "How many moons does Mars have?",
+      "source_row_index": 13983
+    },
+    {
+      "prompt_id": "dolly-12860",
+      "text": "What is the best book to read about the Battle of Stalingrad?",
+      "source_row_index": 12860
+    },
+    {
+      "prompt_id": "dolly-14885",
+      "text": "Name some public companies that have been valued at over 1 trillion dollars.",
+      "source_row_index": 14885
+    },
+    {
+      "prompt_id": "dolly-4661",
+      "text": "Why do the Dutch wear Orange?",
+      "source_row_index": 4661
+    },
+    {
+      "prompt_id": "dolly-13795",
+      "text": "What is an RFI (request for information)?",
+      "source_row_index": 13795
+    },
+    {
+      "prompt_id": "dolly-3672",
+      "text": "When is the best time to buy house in USA",
+      "source_row_index": 3672
+    },
+    {
+      "prompt_id": "dolly-10134",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Florent?",
+      "source_row_index": 10134
+    },
+    {
+      "prompt_id": "dolly-2641",
+      "text": "Panchatantra stories were written by",
+      "source_row_index": 2641
+    },
+    {
+      "prompt_id": "dolly-9599",
+      "text": "What is a 2FA?",
+      "source_row_index": 9599
+    },
+    {
+      "prompt_id": "dolly-9587",
+      "text": "List a few queer books made popular by TikTok",
+      "source_row_index": 9587
+    },
+    {
+      "prompt_id": "dolly-10627",
+      "text": "What is geovisualization?",
+      "source_row_index": 10627
+    },
+    {
+      "prompt_id": "dolly-6516",
+      "text": "Explain the black and white smoke during the Pope election",
+      "source_row_index": 6516
+    },
+    {
+      "prompt_id": "dolly-469",
+      "text": "Give me some facts about Ethiopia?",
+      "source_row_index": 469
+    },
+    {
+      "prompt_id": "dolly-6384",
+      "text": "What is a smart contract?",
+      "source_row_index": 6384
+    },
+    {
+      "prompt_id": "dolly-4529",
+      "text": "What is an option in finance?",
+      "source_row_index": 4529
+    },
+    {
+      "prompt_id": "dolly-12794",
+      "text": "What is Linux?",
+      "source_row_index": 12794
+    },
+    {
+      "prompt_id": "dolly-7973",
+      "text": "How many interstates are there in Colorado?",
+      "source_row_index": 7973
+    },
+    {
+      "prompt_id": "dolly-13744",
+      "text": "Office of War Information?",
+      "source_row_index": 13744
+    },
+    {
+      "prompt_id": "dolly-4040",
+      "text": "In the series A Song of Ice and Fire, who is the founder of House Martell?",
+      "source_row_index": 4040
+    },
+    {
+      "prompt_id": "dolly-3519",
+      "text": "Who is the company Roche",
+      "source_row_index": 3519
+    },
+    {
+      "prompt_id": "dolly-11302",
+      "text": "What is the largest city in North America?",
+      "source_row_index": 11302
+    },
+    {
+      "prompt_id": "dolly-2794",
+      "text": "What is the difference between coffee and espresso?",
+      "source_row_index": 2794
+    },
+    {
+      "prompt_id": "dolly-12347",
+      "text": "On what day did the invasion of Normandy, France occur in World War II?",
+      "source_row_index": 12347
+    },
+    {
+      "prompt_id": "dolly-14288",
+      "text": "Where was Tabunia",
+      "source_row_index": 14288
+    },
+    {
+      "prompt_id": "dolly-3712",
+      "text": "What is a Treasury Bond?",
+      "source_row_index": 3712
+    },
+    {
+      "prompt_id": "dolly-8979",
+      "text": "Who is the Disney character named Grogu?",
+      "source_row_index": 8979
+    },
+    {
+      "prompt_id": "dolly-1394",
+      "text": "How do you change a bicycle tire?",
+      "source_row_index": 1394
+    },
+    {
+      "prompt_id": "dolly-7529",
+      "text": "Which city will host the 2024 Summer Olympics?",
+      "source_row_index": 7529
+    },
+    {
+      "prompt_id": "dolly-13649",
+      "text": "Which city is the capital city of California?",
+      "source_row_index": 13649
+    },
+    {
+      "prompt_id": "dolly-3157",
+      "text": "What is difference between ECS and EC2?",
+      "source_row_index": 3157
+    },
+    {
+      "prompt_id": "dolly-12880",
+      "text": "What are the four great inventions of Ancient China?",
+      "source_row_index": 12880
+    },
+    {
+      "prompt_id": "dolly-14844",
+      "text": "What is the main language spoken in South America?",
+      "source_row_index": 14844
+    },
+    {
+      "prompt_id": "dolly-5809",
+      "text": "how long do roasted coffee beans last before you should throw them out?",
+      "source_row_index": 5809
+    },
+    {
+      "prompt_id": "dolly-4542",
+      "text": "What is rain good for?",
+      "source_row_index": 4542
+    },
+    {
+      "prompt_id": "dolly-12111",
+      "text": "What are \"VTubers\"?",
+      "source_row_index": 12111
+    },
+    {
+      "prompt_id": "dolly-10785",
+      "text": "Who were King Aenys I Targaryen's children?",
+      "source_row_index": 10785
+    },
+    {
+      "prompt_id": "dolly-5051",
+      "text": "How many provinces contain the word ‘Holland’?",
+      "source_row_index": 5051
+    },
+    {
+      "prompt_id": "dolly-7377",
+      "text": "What is the difference between alligator and a crocodile",
+      "source_row_index": 7377
+    },
+    {
+      "prompt_id": "dolly-11750",
+      "text": "Who won six consecutive Wimbledon titles in the 1980s",
+      "source_row_index": 11750
+    },
+    {
+      "prompt_id": "dolly-6244",
+      "text": "What are the symptoms and causes of migraine headaches?",
+      "source_row_index": 6244
+    },
+    {
+      "prompt_id": "dolly-8125",
+      "text": "What are some criticism of Betty Friedan's Feminine Mystique?",
+      "source_row_index": 8125
+    },
+    {
+      "prompt_id": "dolly-10187",
+      "text": "Is the Earth round?",
+      "source_row_index": 10187
+    },
+    {
+      "prompt_id": "dolly-6579",
+      "text": "What kind of fungi are Ochrolechiaceae",
+      "source_row_index": 6579
+    },
+    {
+      "prompt_id": "dolly-13823",
+      "text": "What is basketball?",
+      "source_row_index": 13823
+    },
+    {
+      "prompt_id": "dolly-14989",
+      "text": "Who wrote the Man in the Iron Mask",
+      "source_row_index": 14989
+    },
+    {
+      "prompt_id": "dolly-1510",
+      "text": "Who was the first human to walk on the moon?",
+      "source_row_index": 1510
+    },
+    {
+      "prompt_id": "dolly-14728",
+      "text": "Who won Euro song contest Save All Your Kisses For Me",
+      "source_row_index": 14728
+    },
+    {
+      "prompt_id": "dolly-13516",
+      "text": "Best way to buy a new or used car?",
+      "source_row_index": 13516
+    },
+    {
+      "prompt_id": "dolly-14463",
+      "text": "Who is the best basketball team in the NBA?",
+      "source_row_index": 14463
+    },
+    {
+      "prompt_id": "dolly-12677",
+      "text": "What are the five romance languages?",
+      "source_row_index": 12677
+    },
+    {
+      "prompt_id": "dolly-8024",
+      "text": "List some of the greatest leadership and business books ever written.",
+      "source_row_index": 8024
+    },
+    {
+      "prompt_id": "dolly-10293",
+      "text": "Who was Bran the Builder?",
+      "source_row_index": 10293
+    },
+    {
+      "prompt_id": "dolly-10820",
+      "text": "How does interest rates and inflation impact bond prices?",
+      "source_row_index": 10820
+    },
+    {
+      "prompt_id": "dolly-10214",
+      "text": "Define unemployment and how it is expressed in most countries.",
+      "source_row_index": 10214
+    },
+    {
+      "prompt_id": "dolly-3098",
+      "text": "Is the Vex or FIRST robotics competition a better choice for a child in high school?",
+      "source_row_index": 3098
+    },
+    {
+      "prompt_id": "dolly-890",
+      "text": "Who are some of the main characters in the show \"South Park\"?",
+      "source_row_index": 890
+    },
+    {
+      "prompt_id": "dolly-9645",
+      "text": "Name some characters from the first \"Saved by the Bell\" series.",
+      "source_row_index": 9645
+    },
+    {
+      "prompt_id": "dolly-14401",
+      "text": "How many states are part of New England?",
+      "source_row_index": 14401
+    },
+    {
+      "prompt_id": "dolly-3511",
+      "text": "Name three different cuts of steak from a cow.",
+      "source_row_index": 3511
+    },
+    {
+      "prompt_id": "dolly-10980",
+      "text": "What are some of the most famous fantasy books ever written?",
+      "source_row_index": 10980
+    },
+    {
+      "prompt_id": "dolly-13629",
+      "text": "What is a good second language to learn beyond English, and why?",
+      "source_row_index": 13629
+    },
+    {
+      "prompt_id": "dolly-7648",
+      "text": "Why does treasury bond price drop when bond yield increases?",
+      "source_row_index": 7648
+    },
+    {
+      "prompt_id": "dolly-3392",
+      "text": "How many types of bass are there?",
+      "source_row_index": 3392
+    },
+    {
+      "prompt_id": "dolly-12368",
+      "text": "What are the words of House Hastwyck?",
+      "source_row_index": 12368
+    },
+    {
+      "prompt_id": "dolly-1477",
+      "text": "What is Brazilian Jiu Jitsu?",
+      "source_row_index": 1477
+    },
+    {
+      "prompt_id": "dolly-11152",
+      "text": "What is a bokoblin?",
+      "source_row_index": 11152
+    },
+    {
+      "prompt_id": "dolly-10461",
+      "text": "What is \"woke\" and why is it so controversial?",
+      "source_row_index": 10461
+    },
+    {
+      "prompt_id": "dolly-14900",
+      "text": "What is structural genomics?",
+      "source_row_index": 14900
+    },
+    {
+      "prompt_id": "dolly-8437",
+      "text": "What's are common synonyms for an enterprise sales person?",
+      "source_row_index": 8437
+    },
+    {
+      "prompt_id": "dolly-6430",
+      "text": "What is the difference between the words ‘this’ and ‘that’?",
+      "source_row_index": 6430
+    },
+    {
+      "prompt_id": "dolly-7315",
+      "text": "What are some best practices to keep car tires from losing tread prematurely",
+      "source_row_index": 7315
+    },
+    {
+      "prompt_id": "dolly-8730",
+      "text": "Which NFL team has the most Super Bowl championship wins?",
+      "source_row_index": 8730
+    },
+    {
+      "prompt_id": "dolly-1568",
+      "text": "What are the words of House Baratheon?",
+      "source_row_index": 1568
+    },
+    {
+      "prompt_id": "dolly-5981",
+      "text": "What is a hedge in finance?",
+      "source_row_index": 5981
+    },
+    {
+      "prompt_id": "dolly-5680",
+      "text": "What is family time?",
+      "source_row_index": 5680
+    },
+    {
+      "prompt_id": "dolly-8263",
+      "text": "What city has the northern-most post office in Wisconsin?",
+      "source_row_index": 8263
+    },
+    {
+      "prompt_id": "dolly-12573",
+      "text": "How many golf clubs can a player carry in their bag?",
+      "source_row_index": 12573
+    },
+    {
+      "prompt_id": "dolly-8752",
+      "text": "What film won Best Picture at the 95th Academy Awards in 2023?",
+      "source_row_index": 8752
+    },
+    {
+      "prompt_id": "dolly-8283",
+      "text": "United Nation General Assembly has declared the year 2023 as",
+      "source_row_index": 8283
+    },
+    {
+      "prompt_id": "dolly-13885",
+      "text": "What is GitHub?",
+      "source_row_index": 13885
+    },
+    {
+      "prompt_id": "dolly-5891",
+      "text": "Who started the Reformation?",
+      "source_row_index": 5891
+    },
+    {
+      "prompt_id": "dolly-13718",
+      "text": "How do plants get their energy",
+      "source_row_index": 13718
+    },
+    {
+      "prompt_id": "dolly-12183",
+      "text": "Who wrote the book \"The 7 Habits of Highly Effective Families\" ?",
+      "source_row_index": 12183
+    },
+    {
+      "prompt_id": "dolly-5070",
+      "text": "What is a bicameral legislature?",
+      "source_row_index": 5070
+    },
+    {
+      "prompt_id": "dolly-6836",
+      "text": "Which TV show from the 80s and 90s features a bar owned by a former baseball player?",
+      "source_row_index": 6836
+    },
+    {
+      "prompt_id": "dolly-14291",
+      "text": "If we dug straight through to where we stood on Earth, would we reach the other side?",
+      "source_row_index": 14291
+    },
+    {
+      "prompt_id": "dolly-10369",
+      "text": "Where did the marathon come from?",
+      "source_row_index": 10369
+    },
+    {
+      "prompt_id": "dolly-854",
+      "text": "What is Adderall?",
+      "source_row_index": 854
+    },
+    {
+      "prompt_id": "dolly-11389",
+      "text": "I am an odd number and if you take away a letter, I become even. What number am I?",
+      "source_row_index": 11389
+    },
+    {
+      "prompt_id": "dolly-1339",
+      "text": "How are Social Security and Medicare in the USA funded?",
+      "source_row_index": 1339
+    },
+    {
+      "prompt_id": "dolly-6577",
+      "text": "Why do people like to play Path of Exile?",
+      "source_row_index": 6577
+    },
+    {
+      "prompt_id": "dolly-3238",
+      "text": "When did Alaska become a state?",
+      "source_row_index": 3238
+    },
+    {
+      "prompt_id": "dolly-13693",
+      "text": "What are the words of House Mallister?",
+      "source_row_index": 13693
+    },
+    {
+      "prompt_id": "dolly-7293",
+      "text": "Which NFL teams have gone to the Super Bowl at least once but have never won a Super Bowl title?",
+      "source_row_index": 7293
+    },
+    {
+      "prompt_id": "dolly-14874",
+      "text": "How many times have the Vancouver Canucks won the Stanley cup?",
+      "source_row_index": 14874
+    },
+    {
+      "prompt_id": "dolly-4457",
+      "text": "What's the signifying traits of Neapolitan tailoring?",
+      "source_row_index": 4457
+    },
+    {
+      "prompt_id": "dolly-12854",
+      "text": "What mode of transport is stereotypically associated with San Francisco?",
+      "source_row_index": 12854
+    },
+    {
+      "prompt_id": "dolly-11764",
+      "text": "What is the difference between interface and abstract class in Java?",
+      "source_row_index": 11764
+    },
+    {
+      "prompt_id": "dolly-6225",
+      "text": "How many official languages are spoken in India?",
+      "source_row_index": 6225
+    },
+    {
+      "prompt_id": "dolly-4728",
+      "text": "What is Grafana?",
+      "source_row_index": 4728
+    },
+    {
+      "prompt_id": "dolly-6983",
+      "text": "What's funny about the phrase \"Why was Dumbo sad? He felt irrelephant.\"",
+      "source_row_index": 6983
+    },
+    {
+      "prompt_id": "dolly-2007",
+      "text": "What is the name of Frankenstein's monster?",
+      "source_row_index": 2007
+    },
+    {
+      "prompt_id": "dolly-6471",
+      "text": "What is the scientific formula for table salt?",
+      "source_row_index": 6471
+    },
+    {
+      "prompt_id": "dolly-1061",
+      "text": "Who is the prime minister of India?",
+      "source_row_index": 1061
+    },
+    {
+      "prompt_id": "dolly-11513",
+      "text": "What’s the difference between Delta Live Tables and Workflows?",
+      "source_row_index": 11513
+    },
+    {
+      "prompt_id": "dolly-12021",
+      "text": "What causes an airplane wing to fly?",
+      "source_row_index": 12021
+    },
+    {
+      "prompt_id": "dolly-1888",
+      "text": "Who was the first country to win the cricket world cup in their home soil",
+      "source_row_index": 1888
+    },
+    {
+      "prompt_id": "dolly-8872",
+      "text": "How can you take good star photos?",
+      "source_row_index": 8872
+    },
+    {
+      "prompt_id": "dolly-12666",
+      "text": "What is R language?",
+      "source_row_index": 12666
+    },
+    {
+      "prompt_id": "dolly-11973",
+      "text": "What is the difference between aerobic and anaerobic exercise?",
+      "source_row_index": 11973
+    },
+    {
+      "prompt_id": "dolly-11482",
+      "text": "Where is Chiria",
+      "source_row_index": 11482
+    },
+    {
+      "prompt_id": "dolly-1407",
+      "text": "Did Gary Collins played in the NHL",
+      "source_row_index": 1407
+    },
+    {
+      "prompt_id": "dolly-14664",
+      "text": "What is the capital of Brazil?",
+      "source_row_index": 14664
+    },
+    {
+      "prompt_id": "dolly-4700",
+      "text": "Is 99% a good grade on an essay?",
+      "source_row_index": 4700
+    },
+    {
+      "prompt_id": "dolly-219",
+      "text": "What is a Gross domestic product (GDP)?",
+      "source_row_index": 219
+    },
+    {
+      "prompt_id": "dolly-8374",
+      "text": "What is Maven?",
+      "source_row_index": 8374
+    },
+    {
+      "prompt_id": "dolly-8184",
+      "text": "What is the purpose of a shot clock in basketball?",
+      "source_row_index": 8184
+    },
+    {
+      "prompt_id": "dolly-7313",
+      "text": "What is the most dangerous motorcycle race in the world?",
+      "source_row_index": 7313
+    },
+    {
+      "prompt_id": "dolly-9488",
+      "text": "What is the National Payments Corporation of India?",
+      "source_row_index": 9488
+    },
+    {
+      "prompt_id": "dolly-4002",
+      "text": "Which state in the US has the highest GDP?",
+      "source_row_index": 4002
+    },
+    {
+      "prompt_id": "dolly-3974",
+      "text": "What is Mexico?",
+      "source_row_index": 3974
+    },
+    {
+      "prompt_id": "dolly-14979",
+      "text": "Which nation placed its astronauts on the moon first?",
+      "source_row_index": 14979
+    },
+    {
+      "prompt_id": "dolly-14005",
+      "text": "What plant do cats like to chew or sniff, which may give them a \"high\"?",
+      "source_row_index": 14005
+    },
+    {
+      "prompt_id": "dolly-12135",
+      "text": "What year was the Northwest School in Seattle founded?",
+      "source_row_index": 12135
+    },
+    {
+      "prompt_id": "dolly-9851",
+      "text": "Name five Shakespeare plays or dramas.",
+      "source_row_index": 9851
+    },
+    {
+      "prompt_id": "dolly-2331",
+      "text": "What is St. Peters Basilica?",
+      "source_row_index": 2331
+    },
+    {
+      "prompt_id": "dolly-11684",
+      "text": "Why do people prefer Windows over Linux?",
+      "source_row_index": 11684
+    },
+    {
+      "prompt_id": "dolly-8529",
+      "text": "Who was the first astronaut?",
+      "source_row_index": 8529
+    }
+  ]
+}
