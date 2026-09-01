@@ -185,31 +185,11 @@ def provenance() -> dict:
     }
 
 
-def hf_token() -> str | None:
-
-    for var in ("HF_TOKEN", "HUGGING_FACE_HUB_TOKEN", "HUGGINGFACE_HUB_TOKEN"):
-        tok = os.environ.get(var)
-        if tok:
-            return tok
-    return None
-
-
-def require_hf_token(model_id: str) -> str | None:
-    tok = hf_token()
-    gated_prefixes = ("google/gemma", "meta-llama/")
-    if tok is None and model_id.startswith(gated_prefixes):
-        raise SystemExit(
-            f"{model_id} is a gated repo but HF_TOKEN is not set.\n"
-            "  export HF_TOKEN=...   (and accept the model licence on huggingface.co)"
-        )
-    return tok
-
-
 def repo_revision(repo_id: str, repo_type: str = "model") -> str | None:
     try:
         from huggingface_hub import HfApi
 
-        api = HfApi(token=hf_token())
+        api = HfApi()
         if repo_type == "dataset":
             return api.dataset_info(repo_id).sha
         return api.model_info(repo_id).sha

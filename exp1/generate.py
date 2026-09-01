@@ -6,7 +6,7 @@ import torch
 
 from .common import (Timer, append_jsonl, check_config_consistency, derive_seed,
                      done_keys, log, model_commit_hash, provenance,
-                     require_hf_token, seed_everything, sha256_file, sha256_text,
+                     seed_everything, sha256_file, sha256_text,
                      update_run_config, utcnow)
 from .modeling import (build_processor_chain, encode_rendered, generation_kwargs,
                        load_causal_lm, load_tokenizer, render_prompt, resolve_device,
@@ -72,9 +72,7 @@ def run_generate(args) -> None:
 
     device = resolve_device(args.device)
     dtype = resolve_dtype(args.dtype, device)
-    token = require_hf_token(args.model)
-
-    tokenizer = load_tokenizer(args.model, token, args.revision)
+    tokenizer = load_tokenizer(args.model, args.revision)
 
     rendered = {p["prompt_id"]: render_prompt(tokenizer, p["text"])
                 for p in prompts_payload["prompts"]}
@@ -138,7 +136,7 @@ def run_generate(args) -> None:
     )
 
     model, attn_impl = load_causal_lm(
-        args.model, device, dtype, args.attn_impl, token, args.revision)
+        args.model, device, dtype, args.attn_impl, args.revision)
     payload["model_revision"] = model_commit_hash(model, args.model)
     payload["attn_implementation"] = attn_impl
     payload["provenance"] = provenance()

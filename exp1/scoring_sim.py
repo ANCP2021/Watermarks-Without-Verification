@@ -6,7 +6,7 @@ from pathlib import Path
 import torch
 
 from .common import (Timer, append_jsonl, check_config_consistency, done_keys,
-                     hf_token, log, model_commit_hash, provenance,
+                     log, model_commit_hash, provenance,
                      update_run_config, utcnow)
 from .filters import load_valid_generations
 from .modeling import resolve_device
@@ -20,9 +20,8 @@ def load_embedder(model_id: str, device: str):
     from transformers import AutoModel, AutoTokenizer
 
     log(f"loading embedder {model_id} (device={device}, dtype=float32)")
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=hf_token())
-    model = AutoModel.from_pretrained(model_id, torch_dtype=torch.float32,
-                                      token=hf_token())
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model = AutoModel.from_pretrained(model_id, torch_dtype=torch.float32)
     model.to(device).eval()
     return model, tokenizer
 

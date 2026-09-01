@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import torch
 
-from .common import hf_token, log
+from .common import log
 from .settings import CHAT_TEMPLATE_DATE, SAMPLING
 
 try: 
@@ -41,28 +41,25 @@ def resolve_dtype(requested: str, device: str) -> torch.dtype:
             "float32": torch.float32}[requested]
 
 
-def load_tokenizer(model_id: str, token: str | None = None,
-                   revision: str | None = None):
+def load_tokenizer(model_id: str, revision: str | None = None):
   
     from transformers import AutoTokenizer
 
-    token = token or hf_token()
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=token, revision=revision)
+    tokenizer = AutoTokenizer.from_pretrained(model_id, revision=revision)
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     return tokenizer
 
 
 def load_causal_lm(model_id: str, device: str, dtype: torch.dtype,
-                   attn_impl: str | None = None, token: str | None = None,
+                   attn_impl: str | None = None,
                    revision: str | None = None):
     from transformers import AutoModelForCausalLM
 
     attn_impl = attn_impl or default_attn_impl(model_id)
-    token = token or hf_token()
     log(f"loading {model_id} (device={device}, dtype={dtype}, attn={attn_impl})")
 
-    kwargs = {"torch_dtype": dtype, "token": token, "revision": revision}
+    kwargs = {"torch_dtype": dtype, "revision": revision}
     try:
         import accelerate 
         kwargs["low_cpu_mem_usage"] = True
@@ -83,10 +80,10 @@ def load_causal_lm(model_id: str, device: str, dtype: torch.dtype,
 
 
 def load_model_and_tokenizer(model_id: str, device: str, dtype: torch.dtype,
-                             attn_impl: str | None = None, token: str | None = None,
+                             attn_impl: str | None = None,
                              revision: str | None = None):
-    tokenizer = load_tokenizer(model_id, token, revision)
-    model, attn_impl = load_causal_lm(model_id, device, dtype, attn_impl, token, revision)
+    tokenizer = load_tokenizer(model_id, revision)
+    model, attn_impl = load_causal_lm(model_id, device, dtype, attn_impl, revision)
     return model, tokenizer, attn_impl
 
 

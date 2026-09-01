@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .common import (DEFAULT_PROMPTS_PATH, hf_token, log, repo_revision,
+from .common import (DEFAULT_PROMPTS_PATH, log, repo_revision,
                      sha256_file, utcnow, write_json_atomic)
 
 DOLLY_REPO = "databricks/databricks-dolly-15k"
@@ -20,7 +20,7 @@ def build_prompts(path: str | Path = DEFAULT_PROMPTS_PATH,
     from datasets import load_dataset
 
     log(f"loading {DOLLY_REPO} (category={CATEGORY})")
-    ds = load_dataset(DOLLY_REPO, split="train", revision=revision, token=hf_token())
+    ds = load_dataset(DOLLY_REPO, split="train", revision=revision)
 
     rows = [
         {"row_index": i, "instruction": r["instruction"], "context": r.get("context", "")}
