@@ -15,6 +15,7 @@ One resumable pipeline, run once per generator model.
 
     python run_exp2.py problems     # write problems.json (done automatically otherwise)
     python run_exp2.py selftest     # canonical solutions through the harness: all must pass
+    python run_exp2.py dump-table   # persist the SynthID g-value table (run on the cuda box)
 """
 
 from __future__ import annotations
@@ -88,6 +89,17 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--problems", default=str(DEFAULT_PROBLEMS_PATH))
     _execute_args(p)
 
+    p = sub.add_parser("dump-table", help="draw the SynthID sampling table exactly as generation "
+                                          "did (cuda; seed and size from watermark_config.json) "
+                                          "and save sampling_table.pt next to it. `detect` "
+                                          "refuses to run without that file")
+    p.add_argument("--watermark-config", default=str(DEFAULT_WATERMARK_CONFIG_PATH))
+    p.add_argument("--device", default="cuda", choices=["cuda", "emulate-cuda"],
+                   help="cuda = the real draw (default); emulate-cuda = numpy Philox "
+                        "re-implementation of the cuda stream, provisional until confirmed")
+    p.add_argument("--force", action="store_true",
+                   help="overwrite an existing sampling_table.pt that holds a different table")
+
     p = sub.add_parser("generate", help="produce arms A, B1, B2 (n samples each)")
     _common(p); _generate_args(p)
 
@@ -130,6 +142,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "selftest":
         from exp2.selftest import run_selftest
         return run_selftest(args)
+
+    if args.command == "dump-table":
+        from exp1.watermark_setup import dump_sampling_table
+        return dump_sampling_table(args)
 
     from exp2.detect import run_detect
     from exp2.execute import run_execute

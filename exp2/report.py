@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 import numpy as np
@@ -12,6 +13,8 @@ from exp1.report import _fmt, _fmt_ci, _parity_markdown
 from .analysis import (complete_triples, curve_row, detection_curve, exact_match,
                        executed_triples, filter_counts, kept_samples, pass1_by_problem,
                        pass1_by_source, pass1_summary)
+from exp1.watermark_setup import load_sampling_table, sampling_table_path, sampling_table_sha256
+
 from .detect import DET_KEY, DETECTION_FILE, DETECTOR_PATH, TOKENIZATION
 from .execute import EXECUTION_FILE, index_records
 from .extract import EXTRACTION_RULES_VERSION, RULES, extract_code
@@ -152,6 +155,7 @@ def compute_metrics(out_dir: Path, art: dict, parity: dict) -> dict:
                        "'set' means it was in force for that candidate"}
 
     bound_status = summary["bound"]["status"] if summary.get("n_problems") else "FAIL"
+    table_info = art.get("sampling_table") or {}
     equivalence = {
         "pass1_delta": {"bound": f"95% CI of mean(pass@1_A - pass@1_B1) within +/- {PASS1_MARGIN}",
                         "status": bound_status,
@@ -171,6 +175,10 @@ def compute_metrics(out_dir: Path, art: dict, parity: dict) -> dict:
                   "sensitivity_unparseable_as_fail": sensitivity},
         "detection": {"detector": "mean g-value", "path": DETECTOR_PATH,
                       "tokenization": TOKENIZATION, "primary_fpr": PRIMARY_FPR,
+                      "sampling_table_sha256": table_info.get("sha256"),
+                      "sampling_table_drawn_on": table_info.get("drawn_on"),
+                      "sampling_table_cuda_emulation_agrees":
+                          table_info.get("cuda_emulation_agrees"),
                       "fpr_targets": list(FPR_TARGETS), "prefix_lengths": list(PREFIX_LENGTHS),
                       "null": "pooled unwatermarked scores, B1 + B2, per domain",
                       "threshold_rule": "the (m+1)-th largest null score with "
@@ -367,6 +375,11 @@ def write_figure(metrics: dict, path: Path, model: str) -> bool:
     return True
 
 
+def _gen_table_note(gen: dict) -> str:
+    sha = (gen.get("watermark") or {}).get("sampling_table_sha256")
+    return f"table sha256 `{sha[:16]}...`" if sha else "no table sha (run predates sampling_table.pt)"
+
+
 def _markdown(metrics: dict, run_config: dict) -> str:
     gen = run_config.get("stages", {}).get("generate", {})
     ex = run_config.get("stages", {}).get("execute", {})
@@ -474,7 +487,10 @@ def _markdown(metrics: dict, run_config: dict) -> str:
         f"Detector: **mean g-value** with the saved keys. {d['path']}. Tokenisation: "
         f"{d['tokenization']}. Thresholds are set per domain at empirical FPR on the pooled "
         f"unwatermarked scores (B1 + B2); the rule is: {d['threshold_rule']}. Every code "
-        f"sample of every arm is scored; prose is every Exp 1 generation of this model.",
+        f"sample of every arm is scored; prose is every Exp 1 generation of this model. "
+        f"g-values come from the persisted `sampling_table.pt` (sha256 "
+        f"`{str(d.get('sampling_table_sha256'))[:16]}...`, drawn on "
+        f"{d.get('sampling_table_drawn_on')}).",
         "",
     ]
     if d["domains"]:
@@ -613,6 +629,10 @@ def _markdown(metrics: dict, run_config: dict) -> str:
         f"{gen.get('n_problems_selected')} selected)",
         f"- Watermark keys: `{gen.get('watermark_config_path')}` "
         f"(sha256 `{str(gen.get('watermark_config_sha256'))[:16]}...`)",
+        f"- SynthID sampling table: `sampling_table.pt` (sha256 "
+        f"`{str(metrics['detection'].get('sampling_table_sha256'))[:16]}...`; drawn on "
+        f"{metrics['detection'].get('sampling_table_drawn_on')}; generation recorded "
+        f"{_gen_table_note(gen)})",
         f"- Bootstrap: {metrics['bootstrap']['resamples']} resamples, seed "
         f"{metrics['bootstrap']['seed']}, {metrics['bootstrap']['method']}",
         "",
@@ -622,10 +642,32 @@ def _markdown(metrics: dict, run_config: dict) -> str:
     return "\n".join(lines)
 
 
+def check_sampling_table(watermark_config: str | Path, run_config: dict) -> dict:
+    """The persisted table must exist and be the one detection.jsonl was scored with."""
+    with open(watermark_config, "r", encoding="utf-8") as fh:
+        wm_cfg = json.load(fh)
+    loaded = load_sampling_table(watermark_config, wm_cfg, "cpu")
+    if loaded is None:
+        raise SystemExit(f"{sampling_table_path(watermark_config)} not found -- run "
+                         "`python run_exp2.py dump-table` on the cuda machine; detection scores "
+                         "cannot be audited without the table they were computed with")
+    table, meta = loaded
+    sha = sampling_table_sha256(table)
+    scored_with = run_config.get("stages", {}).get("detect", {}).get("sampling_table_sha256")
+    if scored_with != sha:
+        raise SystemExit(f"sampling_table.pt (sha256 {sha[:16]}...) is not the table "
+                         f"detection.jsonl was scored with ({str(scored_with)[:16]}...); "
+                         "re-run `detect` into a fresh detection.jsonl, then `report`")
+    return {"sha256": sha, "drawn_on": meta.get("drawn_on"),
+            "cuda_emulation_agrees": meta.get("cuda_emulation_agrees"),
+            "created_at": meta.get("created_at")}
+
+
 def run_report(args) -> None:
     out_dir = Path(args.out)
     art = load_artefacts(out_dir, args.problems)
     run_config = art["run_config"]
+    art["sampling_table"] = check_sampling_table(args.watermark_config, run_config)
 
     triples = complete_triples(art["generations"])
     parity = check_exp2_parity(run_config, art["generations"], triples, art["executions"],

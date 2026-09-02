@@ -102,22 +102,31 @@ def detector_check(detections: list[dict], run_config: dict) -> dict:
     if not detections:
         return _check(False, "no detection records on disk -- run `detect`")
     stage = run_config.get("stages", {}).get("detect", {})
-    sigs = {(r.get("detector"), r.get("tokenizer_model"), r.get("watermark_config_sha256"))
+    sigs = {(r.get("detector"), r.get("tokenizer_model"), r.get("watermark_config_sha256"),
+             r.get("sampling_table_sha256"))
             for r in detections}
     differs = []
     if len(sigs) > 1:
         differs.append(f"{len(sigs)} detector configurations among the records: {sorted(sigs)}")
     sig = next(iter(sigs))
     expected = (stage.get("detector"), stage.get("tokenizer_model"),
-                stage.get("watermark_config_sha256"))
+                stage.get("watermark_config_sha256"), stage.get("sampling_table_sha256"))
     if stage and sig != expected:
         differs.append(f"records {sig} != run_config detect stage {expected}")
-    gen_sha = run_config.get("stages", {}).get("generate", {}).get("watermark_config_sha256")
+    if sig[3] is None:
+        differs.append("records carry no sampling_table_sha256: scored with a table drawn at "
+                       "detection time, not the persisted one (run `dump-table`, re-run `detect`)")
+    gen_stage = run_config.get("stages", {}).get("generate", {})
+    gen_sha = gen_stage.get("watermark_config_sha256")
     if gen_sha and sig[2] != gen_sha:
         differs.append(f"scored with keys {sig[2]} but generated with keys {gen_sha}")
+    gen_table = gen_stage.get("watermark", {}).get("sampling_table_sha256")
+    if gen_table and sig[3] != gen_table:
+        differs.append(f"scored with sampling table {sig[3]} but generated with {gen_table}")
     return _check(not differs,
                   f"{len(detections)} scores from one detector ({sig[0]}) with one tokenizer "
-                  f"({sig[1]}) and the generation keys" if not differs
+                  f"({sig[1]}), the generation keys and the persisted sampling table"
+                  if not differs
                   else "scores do not come from one detector configuration", differs)
 
 

@@ -350,19 +350,22 @@ def _run_config(**overrides):
                                                        "B1": list(WARPERS), "B2": list(WARPERS)},
                      "decode_by_arm": {a: {"skip_special_tokens": True, "strip": True}
                                        for a in ARMS},
-                     "watermark_config_sha256": "k1"},
+                     "watermark_config_sha256": "k1",
+                     "watermark": {"sampling_table_sha256": "t1"}},
         "execute": {"timeout_s": 10.0, "mem_mb": 4096, "fsize_mb": 64, "exec_prefix": None,
                     "python_version": "3.11.4", "extraction_rules": "exp2-extract-v2"},
-        "detect": {"detector": "mean", "tokenizer_model": "m", "watermark_config_sha256": "k1"},
+        "detect": {"detector": "mean", "tokenizer_model": "m", "watermark_config_sha256": "k1",
+                   "sampling_table_sha256": "t1"},
     }}
     for key, value in overrides.items():
         cfg["stages"][key] = value
     return cfg
 
 
-def _detections(n=3, sha="k1"):
+def _detections(n=3, sha="k1", table="t1"):
     return [{"domain": "code", "arm": a, "detector": "mean", "tokenizer_model": "m",
-             "watermark_config_sha256": sha} for a in ARMS for _ in range(n)]
+             "watermark_config_sha256": sha, "sampling_table_sha256": table}
+            for a in ARMS for _ in range(n)]
 
 
 def test_exp2_parity_is_pass_or_fail_never_incomplete():
@@ -403,6 +406,14 @@ def test_exp2_parity_is_pass_or_fail_never_incomplete():
 
     wrong_keys = check_exp2_parity(_run_config(), gens, triples, execs, _detections(sha="k2"))
     assert wrong_keys["checks"]["detector_parity"]["status"] == "FAIL"
+
+    no_table = check_exp2_parity(_run_config(), gens, triples, execs, _detections(table=None))
+    assert no_table["checks"]["detector_parity"]["status"] == "FAIL"
+    other_table = _run_config(detect={"detector": "mean", "tokenizer_model": "m",
+                                      "watermark_config_sha256": "k1",
+                                      "sampling_table_sha256": "t2"})
+    wrong_table = check_exp2_parity(other_table, gens, triples, execs, _detections(table="t2"))
+    assert wrong_table["checks"]["detector_parity"]["status"] == "FAIL"
 
     empty = check_exp2_parity(_run_config(), gens, triples, {}, [])
     assert empty["checks"]["harness_parity"]["status"] == "FAIL"

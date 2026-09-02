@@ -10,7 +10,9 @@ from exp1.common import (Timer, append_jsonl, check_config_consistency, done_key
                          load_run_config, log, provenance, read_jsonl, sha256_file,
                          update_run_config, utcnow)
 from exp1.modeling import load_tokenizer
-from exp1.watermark_setup import build_synthid_processor, ensure_watermark_config
+from exp1.watermark_setup import (build_synthid_processor, ensure_watermark_config,
+                                  load_sampling_table, sampling_table_path,
+                                  sampling_table_sha256)
 
 from .execute import EXECUTION_FILE, index_records
 from .extract import extract_code, sha256_text
@@ -131,6 +133,15 @@ def run_detect(args) -> None:
                          f"({gen_stage.get('watermark_config_sha256')} vs {wm_sha}); "
                          "detection would use the wrong keys")
 
+    loaded_table = load_sampling_table(args.watermark_config, wm_cfg, "cpu")
+    if loaded_table is None:
+        raise SystemExit(
+            f"{sampling_table_path(args.watermark_config)} not found. Detection needs the g-value "
+            "table that generation drew (cpu and cuda generators differ for the same seed); "
+            "run `python run_exp2.py dump-table` on the generation machine (cuda) first.")
+    table_sha = sampling_table_sha256(loaded_table[0])
+    table_meta = loaded_table[1]
+
     generations = index_records(read_jsonl(out_dir / GENERATIONS_FILE))
     if not generations:
         raise SystemExit("no generations to score -- run `generate` first")
@@ -162,6 +173,10 @@ def run_detect(args) -> None:
         "tokenization": TOKENIZATION,
         "watermark_config_sha256": wm_sha, "ngram_len": wm_cfg["ngram_len"],
         "depth": len(wm_cfg["keys"]), "prefix_lengths": list(PREFIX_LENGTHS),
+        "sampling_table_sha256": table_sha,
+        "sampling_table_file": str(sampling_table_path(args.watermark_config)),
+        "sampling_table_drawn_on": table_meta.get("drawn_on"),
+        "sampling_table_cuda_emulation_agrees": table_meta.get("cuda_emulation_agrees"),
         "score": "sum(g * mask) / (depth * n_unmasked) == MarkLLM MeanDetector",
         "masks": "context-repetition mask (non-distortionary) and EOS mask, as in "
                  "MarkLLM SynthID.detect_watermark",
@@ -175,12 +190,16 @@ def run_detect(args) -> None:
     }
     check_config_consistency(out_dir, "detect", current,
                              critical=("detector", "tokenizer_model", "tokenization",
-                                       "watermark_config_sha256", "ngram_len", "depth",
-                                       "prefix_lengths", "exp1_source_runs"),
+                                       "watermark_config_sha256", "sampling_table_sha256",
+                                       "ngram_len", "depth", "prefix_lengths",
+                                       "exp1_source_runs"),
                              force=args.force)
 
     tokenizer = load_tokenizer(model_id, gen_stage.get("model_revision"))
-    processor = build_synthid_processor(args.watermark_config, tokenizer, "cpu")
+    processor = build_synthid_processor(args.watermark_config, tokenizer, "cpu",
+                                        require_table=True)
+    if processor.sampling_table_sha256 != table_sha:
+        raise SystemExit("internal error: processor table != loaded sampling_table.pt")
     scorer = GValueScorer(processor, tokenizer, PREFIX_LENGTHS)
 
     payload = {**current, "exp1_runs": exp1_runs, "exp1_runs_glob": args.exp1_runs,
@@ -242,7 +261,8 @@ def run_detect(args) -> None:
             "roundtrip_ids_equal": roundtrip, "text_sha256": text_sha,
             "execution_status": item.get("execution_status"),
             "detector": DETECTOR_NAME, "tokenizer_model": model_id,
-            "watermark_config_sha256": wm_sha, "timestamp": utcnow(),
+            "watermark_config_sha256": wm_sha, "sampling_table_sha256": table_sha,
+            "timestamp": utcnow(),
         })
         if i % 200 == 0 or i == len(todo):
             log(f"  {i}/{len(todo)} scored  eta {timer.eta(i, len(todo))}")

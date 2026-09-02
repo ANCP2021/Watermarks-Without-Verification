@@ -27,7 +27,9 @@ from exp1.scoring_ppl import response_nll
 from exp1.settings import DELTA_NLL_MARGIN, PPL_CONDITIONING
 from exp1.stats import (bootstrap_ci, bootstrap_mean_ci, ci_covers, ci_within,
                         log_delta_to_pct)
-from exp1.watermark_setup import (build_synthid_processor, ensure_watermark_config, reset_synthid_state)
+from exp1.watermark_setup import (build_synthid_processor, ensure_watermark_config,
+                                  reset_synthid_state, sampling_table_path,
+                                  sampling_table_sha256)
 
 VOCAB = 512
 
@@ -132,6 +134,31 @@ def test_watermark_shifts_g_values():
         assert wm_mean > 0.53, f"watermark not detectable: mean g-value {wm_mean:.4f}"
         assert abs(plain_mean - 0.5) < 0.05, f"unwatermarked baseline off: {plain_mean:.4f}"
         assert wm_mean > plain_mean + 0.02
+
+
+def test_sampling_table_file_is_loaded_and_required():
+    with tempfile.TemporaryDirectory() as tmp:
+        keys = _keys_file(Path(tmp))
+        drawn = build_synthid_processor(keys, StubTokenizer(), "cpu")
+        assert drawn.sampling_table_source == "drawn:cpu"
+        try:
+            build_synthid_processor(keys, StubTokenizer(), "cpu", require_table=True)
+        except SystemExit as e:
+            assert "dump-table" in str(e)
+        else:
+            raise AssertionError("require_table must fail without sampling_table.pt")
+
+        table = torch.zeros_like(drawn.sampling_table)
+        table[::3] = 1
+        torch.save({"sampling_table": table, "sampling_table_seed": 0,
+                    "sampling_table_size": table.numel()}, sampling_table_path(keys))
+        loaded = build_synthid_processor(keys, StubTokenizer(), "cpu", require_table=True)
+        assert torch.equal(loaded.sampling_table, table)
+        assert loaded.sampling_table_sha256 == sampling_table_sha256(table)
+        assert loaded.sampling_table_source.startswith("file:")
+        g_drawn = drawn.compute_g_values(torch.arange(1, 40)[None])
+        g_loaded = loaded.compute_g_values(torch.arange(1, 40)[None])
+        assert not torch.equal(g_drawn, g_loaded), "a different table must change g-values"
 
 
 def test_state_reset_makes_generations_independent():

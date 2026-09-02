@@ -125,6 +125,8 @@ def run_generate(args) -> None:
             "depth": len(wm_cfg["keys"]),
             "sampling_table_size": wm_cfg["sampling_table_size"],
             "sampling_table_seed": wm_cfg["sampling_table_seed"],
+            "sampling_table_sha256": synthid.sampling_table_sha256,
+            "sampling_table_source": synthid.sampling_table_source,
             "implementation": "MarkLLM watermark.synthid.SynthIDLogitsProcessor",
             "overrides": {
                 "temperature": 1.0,

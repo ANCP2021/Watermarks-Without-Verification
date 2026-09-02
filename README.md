@@ -46,6 +46,7 @@ Two files at the repo root are created on first use and then only ever read. Bot
 |------|----------|--------------------------------|
 | `prompts.json` | 500 `open_qa` prompts from `databricks/databricks-dolly-15k`, sampled once with a fixed RNG seed | both models, and every later experiment, must see the identical prompt set |
 | `watermark_config.json` | SynthID keys (depth 30), `ngram_len` 5, non-distortionary | the same keys are needed by the later code experiment and by detection scoring (mean g-value); new keys would make existing text undetectable |
+| `sampling_table.pt` | the 65536-entry SynthID g-value lookup table (seed 0) | MarkLLM draws it from `torch.Generator(device)`, and the cpu and cuda streams differ for the same seed; without the persisted table, cpu-side detection scores cuda-generated text with the wrong table (mean g-value 0.50 everywhere). Create it once with `python run_exp2.py dump-table` on the cuda machine; `generate` loads it when present, `detect` refuses to run without it |
 
 `watermark_config.json` has no regenerate flag by design, replacing the keys requires deleting the file by hand. Both files can also be created explicitly:
 
@@ -159,6 +160,8 @@ pass@1 per problem per arm is the fraction of kept samples that pass. The report
 ### Detection
 
 Mean g-value with the saved keys on the re-tokenised text, `sum(g * mask) / (depth * n_unmasked)` with MarkLLM's context-repetition and EOS masks: the **no-training path**, not the deployed Bayesian detector. Domains: `prose` (Exp 1 responses) and `code` (full response), plus `code_extracted` (the fence alone) and `code_ids` (generated token ids, no re-tokenisation). Per model and domain the threshold is the `(m+1)`-th largest pooled unwatermarked score (B1 + B2) with `m = floor(0.01 * n_null)`, i.e. empirical FPR 1%; TPR of the watermarked outputs at it is the headline row, TPR at 5% FPR the secondary row. Prefixes of 20, 50, 100, 200, 400 tokens and the full length are rescored, with thresholds re-set per prefix and a sample counted only if it is at least that long, into `curves.csv` and `detection_curves.png`.
+
+The g-values come from the persisted `sampling_table.pt` (see write-once artefacts); its sha256 is recorded in every detection record, in the `detect` and `generate` stages of `run_config.json`, and checked by the `detector_parity` block. `python run_exp2.py dump-table` draws the table through MarkLLM's own code path on cuda and also checks it against a numpy Philox re-implementation of the cuda stream (`--device emulate-cuda` writes that re-implementation alone, marked provisional).
 
 ### Arm parity
 
