@@ -27,7 +27,7 @@ python run_exp1.py generate --model google/gemma-2-9b-it              --out runs
 python run_exp1.py generate --model meta-llama/Llama-3.1-8B-Instruct  --out runs/llama31-8b
 
 # scoring
-python run_exp1.py ppl    --out runs/gemma2-9b
+python run_exp1.py ppl    --out runs/gemma2-9b   # --rescore to redo an existing ppl.jsonl
 python run_exp1.py sim    --out runs/gemma2-9b
 python run_exp1.py judge  --out runs/gemma2-9b
 python run_exp1.py report --out runs/gemma2-9b
@@ -35,7 +35,7 @@ python run_exp1.py report --out runs/gemma2-9b
 
 ```bash
 python run_exp1.py all --model Qwen/Qwen2.5-0.5B-Instruct --out runs/smoke --smoke
-python tests/test_wiring.py     # 11 offline checks, no downloads
+python tests/test_wiring.py     # 17 offline checks, no downloads
 ```
 
 ### Write-once shared artefacts
@@ -70,13 +70,36 @@ Identical for every arm: `do_sample=True, temperature=0.7, top_k=40, top_p=0.95,
 
 ### Scoring
 
-**`ppl`**: mean per-token NLL of each output under `Qwen/Qwen2.5-7B`, scored standalone (not conditioned on the prompt). 
+**`ppl`**: mean per-token NLL of each output under `Qwen/Qwen2.5-7B`. The scorer sees `"<prompt>\n\n<response>"` and averages over the response tokens only: the prompt is conditioned on but contributes nothing to the mean, and the first response token is scored rather than skipped. `--rescore` archives an existing `ppl.jsonl` and scores every prompt again, which is required whenever the conditioning or the context template changes.
+
+The reported statistic is the per-prompt **difference** of mean NLLs, in nats:
+
+| Statistic | Definition | Role |
+|-----------|------------|------|
+| `d_wm`   | `NLL_A - NLL_B1`  | watermark effect |
+| `d_ctrl` | `NLL_B2 - NLL_B1` | sampling-noise floor; its CI should cover 0 |
+
+Each is reported as a bootstrap mean with a 95% CI, plus the percent equivalent `100 * (exp(mean d) - 1)`, with median and 10%-trimmed mean as robustness rows. Not a mean of per-prompt ratios: `PPL_A/PPL_B1 - 1` is bounded below by -100% and unbounded above, so averaging it shifts a null comparison upwards — the off-vs-off control read +8% on the Gemma run under the old statistic.
 
 **`sim`**: cosine similarity under `BAAI/bge-large-en-v1.5` (CLS pooling, L2-normalised, fp32). `sim(A, B1)` is reported against the control distribution `sim(B1, B2)`.
 
 **`judge`**: blinded pairwise preference between A and B1 under `Qwen/Qwen2.5-7B-Instruct` at temperature 0, ties allowed. 
 
+### Equivalence bounds
+
+| Quantity | Bound |
+|----------|-------|
+| judge win rate for A | 95% CI within 0.50 +/- 0.05 |
+| mean `d_wm` | 95% CI within +/- `log(1.05)` = +/- 0.0488 nats, i.e. 5% in perplexity |
+
+### Arm parity
+
+`generate` asserts, before it emits a single token, that the three arms differ only by the SynthID logits processor: identical generation kwargs, identical decoding rules, and a processor chain that is the shared warper stack plus a trailing `SynthIDLogitsProcessor` in arm A alone. The per-arm kwargs, chains and decode rules are written into `run_config.json`.
+
+`report` re-checks all of that from the stored artefacts and adds four data checks: every prompt encodes to one token count and one generator model across arms; A and B1 share a sampling seed while B2 does not; `ppl` was conditioned on the same prompt file that generation used; and the NLLs were scored over response tokens conditioned on the prompt. A failing check prints exactly what differs and writes no report.
 
 ### Outputs
 
-Per run directory: `generations.jsonl`, `ppl.jsonl`, `sim.jsonl`, `judge.jsonl`, `filter_report.json`, `metrics.json`, `results.md`, `results.csv`, `run_config.json`.
+Per run directory: `generations.jsonl`, `ppl.jsonl`, `sim.jsonl`, `judge.jsonl`, `filter_report.json`, `metrics.json`, `results.md`, `results.csv`, `diagnostics.md`, `run_config.json`.
+
+`diagnostics.md` lists the 10 prompts with the largest `|d_wm|` and the 10 with the largest `|d_ctrl|`, each with per-arm token counts, NLLs and a 200-character preview of all three outputs.

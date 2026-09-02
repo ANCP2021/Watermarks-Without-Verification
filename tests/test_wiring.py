@@ -20,8 +20,13 @@ from transformers import GPT2Config, GPT2LMHeadModel
 from exp1.common import derive_seed, seed_everything
 from exp1.filters import classify, load_valid_generations
 from exp1.modeling import build_processor_chain, generation_kwargs
+from exp1.parity import check_generation_parity, check_run_parity
+from exp1.report import analysis_ppl_records, top_outliers
 from exp1.scoring_judge import decide, parse_verdict
-from exp1.stats import bootstrap_mean_ci, ci_within
+from exp1.scoring_ppl import response_nll
+from exp1.settings import DELTA_NLL_MARGIN, PPL_CONDITIONING
+from exp1.stats import (bootstrap_ci, bootstrap_mean_ci, ci_covers, ci_within,
+                        log_delta_to_pct)
 from exp1.watermark_setup import (build_synthid_processor, ensure_watermark_config, reset_synthid_state)
 
 VOCAB = 512
@@ -218,6 +223,196 @@ def test_bootstrap_ci():
     assert bootstrap_mean_ci([0.5] * 50, seed=1) == bootstrap_mean_ci([0.5] * 50, seed=1)
     assert ci_within({"ci_low": -1.0, "ci_high": 1.0}, -5.0, 5.0)
     assert not ci_within({"ci_low": -6.0, "ci_high": 1.0}, -5.0, 5.0)
+
+
+
+def test_nll_scores_only_the_response_conditioned_on_the_prompt():
+    """The mean must run over response tokens, with the prompt as context only."""
+    model = tiny_model()
+    context = [7, 8, 9, 10, 11]
+    response = [12, 13, 14, 15]
+
+    ids = torch.tensor([context + response])
+    with torch.inference_mode():
+        log_probs = torch.log_softmax(model(ids).logits[0].float(), dim=-1)
+    n = len(context)
+    expected = -sum(float(log_probs[n - 1 + k, response[k]])
+                    for k in range(len(response))) / len(response)
+
+    got = response_nll(model, context, response, "cpu")
+    assert abs(got - expected) < 1e-4, f"{got} != {expected}"
+
+    # every response token is scored, including the first one
+    assert abs(response_nll(model, context, response[:1], "cpu")
+               - -float(log_probs[n - 1, response[0]])) < 1e-4
+
+    # the context changes the answer, so it really is conditioned on
+    other = response_nll(model, [20, 21, 22, 23, 24], response, "cpu")
+    assert abs(other - got) > 1e-4, "context had no effect: the response is scored standalone"
+
+    assert response_nll(model, context, [], "cpu") is None
+
+
+def test_log_difference_is_unbiased_where_the_ratio_is_not():
+    """Averaging per-prompt PPL ratios shifts a null comparison upwards."""
+    import numpy as np
+
+    rng = np.random.default_rng(0)
+    left = rng.normal(2.5, 0.5, size=4000)
+    right = rng.normal(2.5, 0.5, size=4000)          # exchangeable: no real effect
+
+    ratio_pct = 100.0 * (np.exp(left) - np.exp(right)) / np.exp(right)
+    differences = left - right
+
+    assert ratio_pct.mean() > 5.0, "the ratio statistic is supposed to be biased here"
+    assert abs(bootstrap_mean_ci(differences, n_resamples=2000)["mean"]) < 0.02
+    assert ci_covers(bootstrap_mean_ci(differences, n_resamples=2000), 0.0)
+
+
+def test_delta_statistics_and_equivalence_bound():
+    values = [0.0] * 50 + [10.0]                     # one heavy outlier
+    mean = bootstrap_ci(values, "mean", n_resamples=2000)
+    median = bootstrap_ci(values, "median", n_resamples=2000)
+    trimmed = bootstrap_ci(values, "trimmed_mean", n_resamples=2000)
+    assert mean["mean"] > trimmed["mean"] >= median["mean"] == 0.0
+    assert trimmed["n_trimmed_per_tail"] == 5
+
+    assert abs(log_delta_to_pct({"mean": 0.0, "ci_low": 0.0, "ci_high": 0.0,
+                                 "n": 1})["mean"]) < 1e-9
+    at_bound = log_delta_to_pct({"mean": DELTA_NLL_MARGIN, "ci_low": DELTA_NLL_MARGIN,
+                                 "ci_high": DELTA_NLL_MARGIN, "n": 1})
+    assert abs(at_bound["mean"] - 5.0) < 1e-9, "log(1.05) must be exactly +5%"
+
+    assert ci_within({"ci_low": -0.02, "ci_high": 0.02}, -DELTA_NLL_MARGIN, DELTA_NLL_MARGIN)
+    assert not ci_within({"ci_low": -0.02, "ci_high": 0.06},
+                         -DELTA_NLL_MARGIN, DELTA_NLL_MARGIN)
+
+
+def _arm_kwargs(**overrides):
+    base = {arm: dict(generation_kwargs(StubTokenizer(), 512)) for arm in ("A", "B1", "B2")}
+    for arm, patch in overrides.items():
+        base[arm].update(patch)
+    return base
+
+
+WARPERS = ["Float32LogitsProcessor", "TemperatureLogitsWarper",
+           "TopKLogitsWarper", "TopPLogitsWarper"]
+
+
+def _arm_chains(a=None, b1=None, b2=None):
+    return {"A": a or WARPERS + ["SynthIDLogitsProcessor"],
+            "B1": b1 or list(WARPERS), "B2": b2 or list(WARPERS)}
+
+
+def _arm_decode(**overrides):
+    base = {arm: {"skip_special_tokens": True, "strip": True}
+            for arm in ("A", "B1", "B2")}
+    for arm, patch in overrides.items():
+        base[arm].update(patch)
+    return base
+
+
+def test_arm_parity_accepts_only_the_synthid_difference():
+    ok = check_generation_parity(_arm_kwargs(), _arm_chains(), _arm_decode())
+    assert ok["overall"] == "PASS", ok["checks"]
+
+    hotter = check_generation_parity(_arm_kwargs(A={"temperature": 0.9}),
+                                     _arm_chains(), _arm_decode())
+    assert hotter["checks"]["generation_kwargs"]["status"] == "FAIL"
+    assert any("temperature" in d for d in hotter["checks"]["generation_kwargs"]["differs"])
+
+    leaked = check_generation_parity(
+        _arm_kwargs(), _arm_chains(b1=WARPERS + ["SynthIDLogitsProcessor"]), _arm_decode())
+    assert leaked["checks"]["logits_processors"]["status"] == "FAIL"
+
+    missing = check_generation_parity(_arm_kwargs(), _arm_chains(a=list(WARPERS)),
+                                      _arm_decode())
+    assert missing["checks"]["logits_processors"]["status"] == "FAIL"
+
+    decoded = check_generation_parity(_arm_kwargs(), _arm_chains(),
+                                      _arm_decode(B2={"skip_special_tokens": False}))
+    assert decoded["checks"]["decode_rules"]["status"] == "FAIL"
+
+    assert check_generation_parity(None, None, None)["overall"] == "INCOMPLETE"
+
+
+def _run_config(conditioning=PPL_CONDITIONING, sha="abc"):
+    return {"stages": {
+        "generate": {"prompts_sha256": sha,
+                     "generation_kwargs_by_arm": _arm_kwargs(),
+                     "logits_processor_chain_by_arm": _arm_chains(),
+                     "decode_by_arm": _arm_decode()},
+        "ppl": {"conditioning": conditioning, "prompts_sha256": sha},
+    }}
+
+
+def _kept(seed_a=11, seed_b1=11, seed_b2=22, prompt_tokens=(30, 30, 30)):
+    arms = {}
+    for arm, seed, tokens in zip(("A", "B1", "B2"), (seed_a, seed_b1, seed_b2),
+                                 prompt_tokens):
+        arms[arm] = {"text": f"text {arm}", "token_count": 100, "seed": seed,
+                     "model": "m", "n_prompt_tokens": tokens,
+                     "watermarked": arm == "A"}
+    return {"p1": arms}
+
+
+def _ppl_record(**overrides):
+    rec = {"prompt_id": "p1", "scorable": True}
+    for arm, nll in (("A", 2.0), ("B1", 1.9), ("B2", 2.1)):
+        rec[f"nll_{arm}"] = nll
+        rec[f"ppl_{arm}"] = 2.718 ** nll
+        rec[f"n_context_tokens_{arm}"] = 30
+        rec[f"n_scored_tokens_{arm}"] = 80
+        rec[f"n_response_tokens_{arm}"] = 80
+        rec[f"truncated_{arm}"] = False
+    rec.update(overrides)
+    return rec
+
+
+def test_run_parity_rejects_unconditioned_nll():
+    healthy = check_run_parity(_run_config(), _kept(), [_ppl_record()])
+    assert healthy["overall"] == "PASS", healthy["checks"]
+
+    stale = check_run_parity(_run_config(conditioning="output_only"), _kept(),
+                             [_ppl_record()])
+    assert stale["checks"]["nll_conditioning"]["status"] == "FAIL"
+    assert any("--rescore" in d for d in stale["checks"]["nll_conditioning"]["differs"])
+
+    empty_context = check_run_parity(
+        _run_config(), _kept(),
+        [_ppl_record(n_context_tokens_A=0, n_context_tokens_B1=0, n_context_tokens_B2=0)])
+    assert empty_context["checks"]["nll_conditioning"]["status"] == "FAIL"
+
+    partial = check_run_parity(_run_config(), _kept(),
+                               [_ppl_record(n_scored_tokens_A=40)])
+    assert partial["checks"]["nll_conditioning"]["status"] == "FAIL"
+
+    unpaired = check_run_parity(_run_config(), _kept(seed_a=99), [_ppl_record()])
+    assert unpaired["checks"]["seed_parity"]["status"] == "FAIL"
+
+    reseeded = check_run_parity(_run_config(), _kept(seed_b2=11), [_ppl_record()])
+    assert reseeded["checks"]["seed_parity"]["status"] == "FAIL"
+
+    mixed = check_run_parity(_run_config(), _kept(prompt_tokens=(30, 31, 30)),
+                             [_ppl_record()])
+    assert mixed["checks"]["prompt_parity"]["status"] == "FAIL"
+
+    assert check_run_parity(_run_config(), _kept(), [])[
+        "checks"]["nll_conditioning"]["status"] == "INCOMPLETE"
+
+
+def test_outliers_rank_by_absolute_delta():
+    records = [
+        {"prompt_id": "p1", "nll_A": 1.0, "nll_B1": 1.0, "nll_B2": 1.0},
+        {"prompt_id": "p2", "nll_A": 0.1, "nll_B1": 1.0, "nll_B2": 1.0},   # d_wm -0.9
+        {"prompt_id": "p3", "nll_A": 1.4, "nll_B1": 1.0, "nll_B2": 3.0},   # d_ctrl +2.0
+        {"prompt_id": "p4", "nll_A": 1.0, "nll_B1": 1.0, "nll_B2": 1.0, "scorable": False},
+    ]
+    prepared = analysis_ppl_records(records, {"p1", "p2", "p3", "p4"})
+    assert [r["prompt_id"] for r in prepared] == ["p1", "p2", "p3"]
+    assert [r["prompt_id"] for r in top_outliers(prepared, "d_wm", 2)] == ["p2", "p3"]
+    assert [r["prompt_id"] for r in top_outliers(prepared, "d_ctrl", 1)] == ["p3"]
+    assert analysis_ppl_records(records, {"p2"})[0]["d_wm"] == -0.9
 
 
 if __name__ == "__main__":

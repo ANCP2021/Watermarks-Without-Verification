@@ -11,6 +11,7 @@ from .common import (Timer, append_jsonl, check_config_consistency, derive_seed,
 from .modeling import (build_processor_chain, encode_rendered, generation_kwargs,
                        load_causal_lm, load_tokenizer, render_prompt, resolve_device,
                        resolve_dtype)
+from .parity import assert_generation_parity
 from .prompts import load_prompts, select_prompts
 from .settings import (SAMPLING, SEED_S1, SEED_S2, SMOKE_MAX_NEW_TOKENS,
                        SMOKE_MODEL, SMOKE_N_PROMPTS, TARGET_MODELS)
@@ -24,6 +25,9 @@ ARM_SPEC = {
     "B1": (False, SEED_S1, "S1"),
     "B2": (False, SEED_S2, "S2"),
 }
+
+DECODE_KWARGS = {"skip_special_tokens": True}
+DECODE_STRIP = True
 
 
 def _check_model_allowed(model_id: str, smoke: bool) -> None:
@@ -84,6 +88,16 @@ def run_generate(args) -> None:
     effective_sampling = dict(SAMPLING)
     effective_sampling["max_new_tokens"] = max_new_tokens
 
+    synthid = build_synthid_processor(args.watermark_config, tokenizer, device)
+    chains = {arm: build_processor_chain(synthid if watermarked else None)
+              for arm, (watermarked, _, _) in ARM_SPEC.items()}
+    gen_kwargs = generation_kwargs(tokenizer, max_new_tokens)
+
+    kwargs_by_arm = {arm: dict(gen_kwargs) for arm in ARM_SPEC}
+    processors_by_arm = {arm: [type(p).__name__ for p in chains[arm]] for arm in ARM_SPEC}
+    decode_by_arm = {arm: {**DECODE_KWARGS, "strip": DECODE_STRIP} for arm in ARM_SPEC}
+    parity = assert_generation_parity(kwargs_by_arm, processors_by_arm, decode_by_arm)
+
     payload = {
         "model": args.model,
         "dtype": str(dtype).replace("torch.", ""),
@@ -119,11 +133,10 @@ def run_generate(args) -> None:
                        "so it must not re-apply them",
             },
         },
-        "logits_processor_chain": [
-            "Float32LogitsProcessor", "TemperatureLogitsWarper(0.7)",
-            "TopKLogitsWarper(40)", "TopPLogitsWarper(0.95)",
-            "SynthIDLogitsProcessor (arm A only)",
-        ],
+        "generation_kwargs_by_arm": kwargs_by_arm,
+        "logits_processor_chain_by_arm": processors_by_arm,
+        "decode_by_arm": decode_by_arm,
+        "arm_parity": parity["checks"],
         "batch_size": 1,
         "started_at": utcnow(),
     }
@@ -141,20 +154,15 @@ def run_generate(args) -> None:
     payload["attn_implementation"] = attn_impl
     payload["provenance"] = provenance()
 
-    synthid = build_synthid_processor(args.watermark_config, tokenizer, device)
-    chain_watermarked = build_processor_chain(synthid)
-    chain_plain = build_processor_chain(None)
-
     update_run_config(out_dir, "generate", payload,
                       top_level={"out_dir": str(out_dir), "smoke": bool(args.smoke)})
 
     already = done_keys(gen_path, ("prompt_id", "arm"))
-    tasks = [(p, arm) for p in prompts for arm in ("A", "B1", "B2")]
+    tasks = [(p, arm) for p in prompts for arm in ARM_SPEC]
     todo = [(p, arm) for p, arm in tasks if (p["prompt_id"], arm) not in already]
     log(f"{len(tasks)} generations planned, {len(tasks) - len(todo)} already on disk, "
         f"{len(todo)} to run")
 
-    gen_kwargs = generation_kwargs(tokenizer, max_new_tokens)
     timer = Timer()
 
     for i, (prompt, arm) in enumerate(todo, start=1):
@@ -172,12 +180,14 @@ def run_generate(args) -> None:
         with torch.inference_mode():
             output = model.generate(
                 **inputs,
-                logits_processor=chain_watermarked if watermarked else chain_plain,
+                logits_processor=chains[arm],
                 **gen_kwargs,
             )
 
         gen_ids = output[0, n_prompt_tokens:]
-        text = tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
+        text = tokenizer.decode(gen_ids, **DECODE_KWARGS)
+        if DECODE_STRIP:
+            text = text.strip()
 
         append_jsonl(gen_path, {
             "prompt_id": prompt_id,

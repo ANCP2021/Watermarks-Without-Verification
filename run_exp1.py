@@ -7,7 +7,7 @@ One resumable pipeline, run once per generator model.
     python run_exp1.py generate --model meta-llama/Llama-3.1-8B-Instruct --out runs/llama31-8b
 
     # scoring - independent, rerunnable, order-free
-    python run_exp1.py ppl    --out runs/gemma2-9b
+    python run_exp1.py ppl    --out runs/gemma2-9b   # --rescore to redo an existing ppl.jsonl
     python run_exp1.py sim    --out runs/gemma2-9b
     python run_exp1.py judge  --out runs/gemma2-9b
     python run_exp1.py report --out runs/gemma2-9b
@@ -54,6 +54,7 @@ def _generate_args(parser: argparse.ArgumentParser) -> None:
 def _ppl_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--ppl-model", default=None, help="override the scorer LM")
     parser.add_argument("--ppl-max-length", type=int, default=2048)
+    parser.add_argument("--rescore", action="store_true", help="archive ppl.jsonl and score every prompt again (needed when the scoring definition changed)")
 
 
 def _sim_args(parser: argparse.ArgumentParser) -> None:
@@ -82,7 +83,8 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("generate", help="produce arms A, B1, B2")
     _common(p); _generate_args(p)
 
-    p = sub.add_parser("ppl", help="mean per-token NLL under the scorer LM")
+    p = sub.add_parser("ppl", help="mean per-token NLL of each response, "
+                                   "conditioned on its prompt")
     _common(p); _ppl_args(p)
 
     p = sub.add_parser("sim", help="embedding cosine similarity")
@@ -91,7 +93,8 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("judge", help="blinded pairwise preference, positions swapped")
     _common(p); _judge_args(p)
 
-    p = sub.add_parser("report", help="results.md + results.csv + pass/fail")
+    p = sub.add_parser("report", help="arm-parity check, then results.md + "
+                                      "results.csv + diagnostics.md + pass/fail")
     _common(p)
 
     p = sub.add_parser("all", help="generate, then every scoring stage, then report")
