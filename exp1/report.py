@@ -85,6 +85,18 @@ def _length_metrics(kept: dict) -> dict:
     }
 
 
+def exact_match_metrics(kept: dict) -> dict:
+    """Fraction of kept prompts whose outputs are byte-for-byte identical."""
+    n = len(kept)
+    a_b1 = sum(1 for pid in kept if kept[pid]["A"]["text"] == kept[pid]["B1"]["text"])
+    b1_b2 = sum(1 for pid in kept if kept[pid]["B1"]["text"] == kept[pid]["B2"]["text"])
+    return {"n": n,
+            "A_eq_B1": a_b1 / n if n else None, "A_eq_B1_count": a_b1,
+            "B1_eq_B2": b1_b2 / n if n else None, "B1_eq_B2_count": b1_b2,
+            "definition": "fraction of kept prompts whose two outputs are byte-for-byte "
+                          "identical; B1 == B2 is the baseline for independent samples"}
+
+
 def compute_metrics(out_dir: Path, run_config: dict, kept: dict, filter_report: dict,
                     ppl_records: list[dict], parity: dict) -> dict:
     analysis_ids = set(kept)
@@ -128,6 +140,7 @@ def compute_metrics(out_dir: Path, run_config: dict, kept: dict, filter_report: 
         metrics["ppl"] = None
 
     metrics["length"] = _length_metrics(kept) if kept else None
+    metrics["exact_match"] = exact_match_metrics(kept)
 
     judge_records = [r for r in read_jsonl(out_dir / "judge.jsonl")
                      if r["prompt_id"] in analysis_ids]
@@ -253,6 +266,12 @@ def _csv_rows(metrics: dict, run_config: dict) -> list[dict]:
         add_stat("sim_paired_delta_A_B1_minus_B1_B2", s["paired_delta"], "",
                  "negative => watermark moves text further than reseeding does")
         add("sim_embedding_model", s["embedding_model"])
+
+    x = metrics.get("exact_match")
+    if x:
+        add("exact_match_A_eq_B1", x["A_eq_B1"], n=x["n"],
+            notes="fraction of kept prompts with byte-identical A and B1 outputs")
+        add("exact_match_B1_eq_B2", x["B1_eq_B2"], n=x["n"], notes="baseline")
 
     f = metrics["filter"]
     add("filter_n_prompts_with_generations", f["n_prompts_with_generations"])
@@ -509,6 +528,23 @@ def _markdown(metrics: dict, run_config: dict) -> str:
     else:
         lines += ["_Not scored yet (`sim` stage has produced no records)._", ""]
 
+    x = metrics.get("exact_match")
+    if x:
+        def pct(v):
+            return "n/a" if v is None else f"{100 * v:.1f}%"
+        lines += [
+            "## Exact-match rates",
+            "",
+            f"{x['definition'][0].upper() + x['definition'][1:]}. A == B1 measures how often "
+            "the watermark left the response untouched (same seed, same randomness stream).",
+            "",
+            "| Comparison | Prompts | Identical | Rate |",
+            "|---|---|---|---|",
+            f"| A == B1 (watermark) | {x['n']} | {x['A_eq_B1_count']} | {pct(x['A_eq_B1'])} |",
+            f"| B1 == B2 (baseline) | {x['n']} | {x['B1_eq_B2_count']} | {pct(x['B1_eq_B2'])} |",
+            "",
+        ]
+
     lines += _parity_markdown(metrics["parity"])
 
     lines += [
@@ -668,6 +704,10 @@ def run_report(args) -> None:
     if metrics["length"]:
         print(f"  length A - B1: "
               f"{_fmt_ci(metrics['length']['paired_delta_A_minus_B1'], digits=2)} tokens")
+    x = metrics.get("exact_match")
+    if x and x["n"]:
+        print(f"  exact match: A==B1 {100 * x['A_eq_B1']:.1f}%   B1==B2 {100 * x['B1_eq_B2']:.1f}%"
+              f"   (n = {x['n']})")
     print(f"  filtered: {metrics['filter']['n_kept']} kept, "
           f"{metrics['filter']['n_dropped']} dropped")
     print()

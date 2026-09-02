@@ -21,7 +21,7 @@ from exp1.common import derive_seed, seed_everything
 from exp1.filters import classify, load_valid_generations
 from exp1.modeling import build_processor_chain, generation_kwargs
 from exp1.parity import check_generation_parity, check_run_parity
-from exp1.report import analysis_ppl_records, top_outliers
+from exp1.report import analysis_ppl_records, exact_match_metrics, top_outliers
 from exp1.scoring_judge import decide, parse_verdict
 from exp1.scoring_ppl import response_nll
 from exp1.settings import DELTA_NLL_MARGIN, PPL_CONDITIONING
@@ -413,6 +413,18 @@ def test_outliers_rank_by_absolute_delta():
     assert [r["prompt_id"] for r in top_outliers(prepared, "d_wm", 2)] == ["p2", "p3"]
     assert [r["prompt_id"] for r in top_outliers(prepared, "d_ctrl", 1)] == ["p3"]
     assert analysis_ppl_records(records, {"p2"})[0]["d_wm"] == -0.9
+
+
+def test_exact_match_rates():
+    kept = {
+        "p1": {"A": {"text": "same"}, "B1": {"text": "same"}, "B2": {"text": "other"}},
+        "p2": {"A": {"text": "x"}, "B1": {"text": "y"}, "B2": {"text": "y"}},
+        "p3": {"A": {"text": "z"}, "B1": {"text": "z"}, "B2": {"text": "z"}},
+    }
+    x = exact_match_metrics(kept)
+    assert x["n"] == 3 and x["A_eq_B1_count"] == 2 and x["B1_eq_B2_count"] == 2
+    assert abs(x["A_eq_B1"] - 2 / 3) < 1e-12
+    assert exact_match_metrics({})["A_eq_B1"] is None
 
 
 if __name__ == "__main__":
