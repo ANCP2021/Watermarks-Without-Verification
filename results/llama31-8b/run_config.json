@@ -1,0 +1,320 @@
+{
+  "created_at": "2026-09-01T22:06:27Z",
+  "updated_at": "2026-09-02T02:50:55Z",
+  "out_dir": "runs/llama31-8b",
+  "smoke": false,
+  "stages": {
+    "generate": {
+      "model": "meta-llama/Llama-3.1-8B-Instruct",
+      "dtype": "bfloat16",
+      "device": "cuda",
+      "smoke": false,
+      "max_new_tokens": 512,
+      "sampling": {
+        "do_sample": true,
+        "temperature": 0.7,
+        "top_k": 40,
+        "top_p": 0.95,
+        "max_new_tokens": 512,
+        "repetition_penalty": 1.0,
+        "no_repeat_ngram_size": 0,
+        "num_beams": 1
+      },
+      "seeds": {
+        "S1": 1234,
+        "S2": 5678,
+        "per_prompt_derivation": "int(sha256(f'{base_seed}|{prompt_id}').hexdigest()[:8], 16)",
+        "arms": {
+          "A": {
+            "watermarked": true,
+            "base_seed": 1234,
+            "label": "S1"
+          },
+          "B1": {
+            "watermarked": false,
+            "base_seed": 1234,
+            "label": "S1"
+          },
+          "B2": {
+            "watermarked": false,
+            "base_seed": 5678,
+            "label": "S2"
+          }
+        }
+      },
+      "prompts_path": "prompts.json",
+      "prompts_sha256": "fc09a34870eb4d2c57589b2e632f875aa10d68850a9aa084fc00f7ab1569f025",
+      "n_prompts_selected": 500,
+      "prompt_render_sha256": "3db06236fd683c30f9eb4c693077526b3edb22a674526ef445e0ff255e024df4",
+      "watermark_config_path": "watermark_config.json",
+      "watermark_config_sha256": "0de47886345aeb107899d18129d55f28cb6bfdf6d74fe1d7dcc43bbccd580fb6",
+      "watermark": {
+        "algorithm": "SynthID",
+        "mode": "non-distortionary",
+        "ngram_len": 5,
+        "depth": 30,
+        "sampling_table_size": 65536,
+        "sampling_table_seed": 0,
+        "implementation": "MarkLLM watermark.synthid.SynthIDLogitsProcessor",
+        "overrides": {
+          "temperature": 1.0,
+          "top_k": -1,
+          "why": "processor is applied after temperature/top-k/top-p warping, so it must not re-apply them"
+        }
+      },
+      "logits_processor_chain": [
+        "Float32LogitsProcessor",
+        "TemperatureLogitsWarper(0.7)",
+        "TopKLogitsWarper(40)",
+        "TopPLogitsWarper(0.95)",
+        "SynthIDLogitsProcessor (arm A only)"
+      ],
+      "batch_size": 1,
+      "started_at": "2026-09-01T22:05:39Z",
+      "model_revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+      "attn_implementation": "sdpa",
+      "provenance": {
+        "captured_at": "2026-09-01T22:06:23Z",
+        "repo_commit": "2654e6f740878e06f768dda765501312053fdedb",
+        "repo_dirty": true,
+        "markllm_commit": "c45ddc40f7b761beabe55a1b8dc4690e531d1c6d",
+        "libraries": {
+          "python": "3.10.20",
+          "torch": "2.12.0+cu126",
+          "transformers": "4.57.6",
+          "datasets": "4.8.4",
+          "numpy": "1.26.4",
+          "huggingface_hub": "0.36.2",
+          "tokenizers": "0.22.2",
+          "accelerate": "1.13.0"
+        },
+        "hardware": {
+          "platform": "Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28",
+          "processor": "x86_64",
+          "torch_cuda_version": "12.6",
+          "cuda_available": true,
+          "gpu_name": "NVIDIA A100-SXM4-40GB",
+          "gpu_count": 1,
+          "gpu_capability": [
+            8,
+            0
+          ]
+        },
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      },
+      "finished_at": "2026-09-02T00:54:51Z",
+      "n_generations_on_disk": 1500
+    },
+    "sim": {
+      "embedding_model": "BAAI/bge-large-en-v1.5",
+      "embedding_model_revision": "d4aa6901d3a41ba39fb536a557fa166f842b0e09",
+      "dtype": "float32",
+      "device": "cuda",
+      "pooling": "cls",
+      "normalize": true,
+      "max_length": 512,
+      "pairs": {
+        "treatment": "sim(A, B1)",
+        "control": "sim(B1, B2)"
+      },
+      "filter": {
+        "n_kept": 500,
+        "n_dropped": 0,
+        "n_incomplete_triples": 0
+      },
+      "started_at": "2026-09-02T01:24:47Z",
+      "provenance": {
+        "captured_at": "2026-09-02T01:24:47Z",
+        "repo_commit": "2654e6f740878e06f768dda765501312053fdedb",
+        "repo_dirty": true,
+        "markllm_commit": "c45ddc40f7b761beabe55a1b8dc4690e531d1c6d",
+        "libraries": {
+          "python": "3.10.20",
+          "torch": "2.12.0+cu126",
+          "transformers": "4.57.6",
+          "datasets": "4.8.4",
+          "numpy": "1.26.4",
+          "huggingface_hub": "0.36.2",
+          "tokenizers": "0.22.2",
+          "accelerate": "1.13.0"
+        },
+        "hardware": {
+          "platform": "Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28",
+          "processor": "x86_64",
+          "torch_cuda_version": "12.6",
+          "cuda_available": true,
+          "gpu_name": "NVIDIA A100-SXM4-40GB",
+          "gpu_count": 1,
+          "gpu_capability": [
+            8,
+            0
+          ]
+        },
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      },
+      "finished_at": "2026-09-02T01:26:02Z",
+      "n_scored": 500
+    },
+    "ppl": {
+      "scorer_model": "Qwen/Qwen2.5-7B",
+      "max_length": 2048,
+      "conditioning": "response_tokens_given_prompt",
+      "context_template": "{prompt}\n\n",
+      "prompts_sha256": "fc09a34870eb4d2c57589b2e632f875aa10d68850a9aa084fc00f7ab1569f025",
+      "scorer_model_revision": "d149729398750b98c0af14eb82c78cfe92750796",
+      "dtype": "bfloat16",
+      "device": "cuda",
+      "attn_implementation": "sdpa",
+      "prompts_path": "prompts.json",
+      "min_response_room": 256,
+      "scoring": "mean cross-entropy over the response tokens of '<prompt>\\n\\n<response>'; the prompt is conditioned on but its tokens are excluded from the mean",
+      "statistics": {
+        "d_wm": "nll_A - nll_B1",
+        "d_ctrl": "nll_B2 - nll_B1"
+      },
+      "filter": {
+        "n_kept": 500,
+        "n_dropped": 0,
+        "n_incomplete_triples": 0
+      },
+      "started_at": "2026-09-02T02:46:53Z",
+      "provenance": {
+        "captured_at": "2026-09-02T02:46:53Z",
+        "repo_commit": "6427eaf1ca8695325ccda29fb303258dca238d6a",
+        "repo_dirty": true,
+        "markllm_commit": "c45ddc40f7b761beabe55a1b8dc4690e531d1c6d",
+        "libraries": {
+          "python": "3.10.20",
+          "torch": "2.12.0+cu126",
+          "transformers": "4.57.6",
+          "datasets": "4.8.4",
+          "numpy": "1.26.4",
+          "huggingface_hub": "0.36.2",
+          "tokenizers": "0.22.2",
+          "accelerate": "1.13.0"
+        },
+        "hardware": {
+          "platform": "Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28",
+          "processor": "x86_64",
+          "torch_cuda_version": "12.6",
+          "cuda_available": true,
+          "gpu_name": "NVIDIA A100-SXM4-40GB",
+          "gpu_count": 1,
+          "gpu_capability": [
+            8,
+            0
+          ]
+        },
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      },
+      "finished_at": "2026-09-02T02:48:00Z",
+      "n_scored": 500
+    },
+    "judge": {
+      "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+      "judge_model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "dtype": "bfloat16",
+      "device": "cuda",
+      "attn_implementation": "sdpa",
+      "decoding": {
+        "do_sample": false,
+        "temperature": 0,
+        "max_new_tokens": 8
+      },
+      "protocol": {
+        "comparison": "A vs B1",
+        "blinded": true,
+        "ties_allowed": true,
+        "positions_swapped": true,
+        "win_rule": "a win requires both orderings to agree; otherwise tie",
+        "order_1": "Response 1 = A, Response 2 = B1",
+        "order_2": "Response 1 = B1, Response 2 = A"
+      },
+      "system_prompt": "You are an impartial evaluator of writing quality. You compare two candidate responses to the same instruction and decide which one is better overall, considering helpfulness, accuracy, coherence and fluency. You are not influenced by the order in which the responses are presented, or by their length. You answer with a single token.",
+      "user_template": "[Instruction]\n{instruction}\n\n[Response 1]\n{response_1}\n\n[Response 2]\n{response_2}\n\nWhich response is better? Answer with exactly one word: \"1\" if Response 1 is better, \"2\" if Response 2 is better, or \"Tie\" if they are of equal quality. Answer:",
+      "filter": {
+        "n_kept": 500,
+        "n_dropped": 0,
+        "n_incomplete_triples": 0
+      },
+      "started_at": "2026-09-02T01:27:26Z",
+      "provenance": {
+        "captured_at": "2026-09-02T01:27:26Z",
+        "repo_commit": "2654e6f740878e06f768dda765501312053fdedb",
+        "repo_dirty": true,
+        "markllm_commit": "c45ddc40f7b761beabe55a1b8dc4690e531d1c6d",
+        "libraries": {
+          "python": "3.10.20",
+          "torch": "2.12.0+cu126",
+          "transformers": "4.57.6",
+          "datasets": "4.8.4",
+          "numpy": "1.26.4",
+          "huggingface_hub": "0.36.2",
+          "tokenizers": "0.22.2",
+          "accelerate": "1.13.0"
+        },
+        "hardware": {
+          "platform": "Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28",
+          "processor": "x86_64",
+          "torch_cuda_version": "12.6",
+          "cuda_available": true,
+          "gpu_name": "NVIDIA A100-SXM4-40GB",
+          "gpu_count": 1,
+          "gpu_capability": [
+            8,
+            0
+          ]
+        },
+        "env": {
+          "CUDA_VISIBLE_DEVICES": "0"
+        }
+      },
+      "finished_at": "2026-09-02T01:29:11Z",
+      "n_judged": 500
+    },
+    "report": {
+      "generated_at": "2026-09-02T02:50:53Z",
+      "bootstrap": {
+        "resamples": 10000,
+        "seed": 987654321,
+        "method": "percentile, resampling prompts with replacement"
+      },
+      "equivalence": {
+        "win_rate": {
+          "bound": "95% CI within 0.5 +/- 0.05 ([0.45, 0.55])",
+          "status": "PASS"
+        },
+        "delta_nll": {
+          "bound": "95% CI of mean d_wm within +/- log(1.05) = +/- 0.0488 nats",
+          "status": "PASS"
+        },
+        "overall": "PASS"
+      },
+      "parity": {
+        "overall": "INCOMPLETE",
+        "checks": {
+          "generation_kwargs": "INCOMPLETE",
+          "logits_processors": "INCOMPLETE",
+          "decode_rules": "INCOMPLETE",
+          "prompt_parity": "PASS",
+          "seed_parity": "PASS",
+          "prompt_set": "PASS",
+          "nll_conditioning": "PASS"
+        }
+      },
+      "outputs": [
+        "results.md",
+        "results.csv",
+        "diagnostics.md",
+        "metrics.json",
+        "filter_report.json"
+      ]
+    }
+  }
+}
